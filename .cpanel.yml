@@ -1,0 +1,9 @@
+# DEPLOYMENT PATH TO CPANEL
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/stormsco/AfyaApp
+    - /bin/cp -r * $DEPLOYPATH #copy all from root
+    #    - /bin/cp -r ./public/* $DEPLOYPATH/public_html/
+    - /bin/cp ./public/* /home/stormsco/public_html/afya_public
+

@@ -16,4 +16,12 @@ class MedicationPlan extends Model
         return $this->belongsToMany(Medication::class, 'medication_medication_plans');
     }
 
+    public function patients()
+    {
+        return $this->belongsToMany(Patient::class, 'patient_medication_plans')
+            ->as('allocated_plans')
+            ->withPivot("medication_plan_id", "patient_id", "nurse_id", "doctor_id", "recommendation_notes", "status", )
+            ->withTimestamps();
+    }
+
 }

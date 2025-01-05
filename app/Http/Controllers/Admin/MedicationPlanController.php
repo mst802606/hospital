@@ -79,13 +79,26 @@ class MedicationPlanController extends Controller
      */
     public function update(UpdateMedicationPlanRequest $request, MedicationPlan $medicationPlan)
     {
-        $medicationPlan->update([
+
+        $result = $medicationPlan->update([
             'name' => $request->name,
             'description' => $request->description,
             "start_date" => $request->start_date,
             "start_time" => $request->start_time,
             "is_active" => true,
         ]);
+
+        if (!$result) {
+            return back()->with('error', 'Medication plan could not be updated');
+        }
+
+        $medicationPlan = MedicationPlan::where('id', $medicationPlan->id)->first();
+
+        $result = $medicationPlan->medications()->toggle($request->medications);
+
+        if (!$result) {
+            return back()->with('error', 'Medication plan could not be updated');
+        }
 
         // Redirect to the index page with a success message
         return redirect()->route('admin.medication_plans.show', ['medication_plan' => $medicationPlan->id])

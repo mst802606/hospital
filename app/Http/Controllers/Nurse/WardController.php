@@ -47,7 +47,7 @@ class WardController extends BaseController
 
         $ward = Ward::where('id', $ward->id)->with('patients')->first();
 
-        return view('nurse.wards.show', $ward);
+        return view('nurse.wards.show', compact('ward'));
     }
 
     /**

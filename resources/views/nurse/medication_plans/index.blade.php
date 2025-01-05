@@ -1,4 +1,4 @@
-@extends('layouts.doctor')
+@extends('layouts.nurse')
 
 @section('page')
 				<div class="container mt-5">
@@ -25,9 +25,9 @@
 																												<td>{{ $plan->start_time }}</td>
 																												<td>{{ $plan->is_active ? 'Yes' : 'No' }}</td>
 																												<td>
-																																<a href="{{ route('doctor.medication_plans.show', $plan) }}"
+																																<a href="{{ route('nurse.medication_plans.show', $plan) }}"
 																																				class="btn btn-info btn-sm">View</a>
-																																<a href="{{ route('doctor.medication_plans.edit', $plan) }}"
+																																<a href="{{ route('nurse.medication_plans.edit', $plan) }}"
 																																				class="btn btn-warning btn-sm">Edit</a>
 																												</td>
 																								</tr>

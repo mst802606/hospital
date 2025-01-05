@@ -47,9 +47,9 @@
 																<label for="form" class="form-label">Select Medication</label>
 
 																<a href="/admin/medications/create" class="form-label">Or Add medication</a>
-																<select multiple class="form-select" id="form" name="form" required>
+																<select multiple class="form-select" id="medications" name="medications[]" required>
 																				@foreach ($medications as $medication)
-																								<option value="tabl" {{ old('form', $medication->name) == 'tabl' ? 'selected' : '' }}>
+																								<option value="{{ $medication->id }}">
 																												{{ $medication->name }}</option>
 																				@endforeach
 

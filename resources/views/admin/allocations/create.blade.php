@@ -15,6 +15,15 @@
 								</div>
 
 								<div class="mb-3">
+												<label for="doctor_id" class="form-label">Doctor:</label>
+												<select name="doctor_id" id="doctor_id" class="form-select">
+																@foreach ($doctors as $doctor)
+																				<option value="{{ $doctor->id }}">{{ $doctor->tag }} {{ $doctor->user->username }}</option>
+																@endforeach
+												</select>
+								</div>
+
+								<div class="mb-3">
 												<label for="plan_id" class="form-label">Medication Plan:</label>
 												<select name="plan_id" id="plan_id" class="form-select">
 																@foreach ($plans as $plan)

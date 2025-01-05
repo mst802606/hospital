@@ -18,7 +18,7 @@ class Medication extends Model
 
     public function patients()
     {
-        return $this->belongsToMany(Patient::class, 'medication_patients');
+        return $this->belongsToMany(Patient::class, 'medications_patients');
     }
 
 }

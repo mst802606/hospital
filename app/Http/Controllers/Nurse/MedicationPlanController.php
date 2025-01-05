@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Nurse;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use App\Http\Requests\StoreMedicationPlanRequest;
 use App\Http\Requests\UpdateMedicationPlanRequest;
 use App\Models\Medication;
 use App\Models\MedicationPlan;
 
-class MedicationPlanController extends Controller
+class MedicationPlanController extends BaseController
 {
     /**
      * Display a listing of the resource.

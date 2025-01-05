@@ -15,9 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('medication_id')->constrained('medication_plans');
             $table->foreignId('medication_plan_id')->constrained('medication_plans');
-            $table->foreignId('patient_id')->constrained('patients')->nullable();
-            $table->foreignId('nurse_id')->constrained('users')->nullable();
-            $table->foreignId('doctor_id')->constrained('users')->nullable();
+            $table->foreignId('nurse_id')->nullable()->rerefences('id')->on('nurses');
+            $table->foreignId('doctor_id')->nullable()->rerefences('id')->on('doctors');
             $table->text('recommendation_notes')->nullable();
             $table->enum('status', ['pending', 'active', 'completed']);
             $table->timestamps();
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('patient_medication_plans');
+        Schema::dropIfExists('medication_medication_plans');
     }
 };

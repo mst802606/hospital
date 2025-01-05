@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Medication;
 use App\Models\MedicationPlan;
 use App\Models\Patient;
 use App\Notifications\MedicationDueNotification;
@@ -31,20 +30,30 @@ class AlertMedicationCommand extends Command
     public function handle()
     {
         //
-        $medication_plans = MedicationPlan::where('is_active', true)->get();
 
-        foreach ($medication_plans as $medication_plan) {
+        $patients = MedicationPlan::where('is_active', true)
+            ->with('patients')
+            ->get()
+            ->pluck('patients')
+            ->flatten(); // Flatten if each MedicationPlan has multiple patients
 
-            $medications = $medication_plan->medications;
-            foreach ($medications as $medication) {
-                // Load the medication with the pivot data
-                $medication = Medication::where('id', $medication->id)
-                    ->with(['patients' => function ($query) {
-                        $query->withPivot('last_given', 'amount_taken_morning', 'amount_taken_noon', 'amount_taken_evening', 'amount_taken_night', 'total_amount_given');
-                    }])->first();
+        foreach ($patients as $patient) {
+            $medications_in_progress = $patient->medications()
+                ->with(['patients' => function ($query) use ($patient) {
+                    $query->withPivot(
+                        'last_given',
+                        'amount_taken_morning',
+                        'amount_taken_noon',
+                        'amount_taken_evening',
+                        'amount_taken_night',
+                        'total_amount_given'
+                    )->where('medications_patients.patient_id', $patient->id)
+                        ->whereDate('medications_patients.created_at', today());
+                }])
+                ->get();
 
-                // Iterate over each patient
-                foreach ($medication->patients as $patient) {
+            if ($medications_in_progress->has('patients')) {
+                foreach ($medications_in_progress->patients as $patient) {
                     // Get the pivot data for this patient
                     $pivot = $patient->pivot;
 
@@ -95,6 +104,8 @@ class AlertMedicationCommand extends Command
                         $this->notifyNurses($patient);
                     }
                 }
+            } else {
+                $this->notifyNurses($patient);
             }
         }
 

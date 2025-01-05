@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Nurses;
+namespace App\Http\Controllers\Nurse;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use App\Http\Requests\StoreMedicationRequest;
 use App\Http\Requests\UpdateMedicationRequest;
 use App\Models\Medication;
 use App\Models\MedicationPlan;
 
-class MedicationController extends Controller
+class MedicationController extends BaseController
 {
     /**
      * Display a listing of the resource.

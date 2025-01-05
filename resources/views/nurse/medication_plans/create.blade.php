@@ -1,4 +1,4 @@
-@extends('layouts.doctor')
+@extends('layouts.nurse')
 
 @section('page')
 				<div class="container mt-5">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Doctor;
 use App\Models\MedicationPlan;
 use App\Models\Patient;
 use App\Models\PatientMedicationPlan;
@@ -17,9 +18,10 @@ class PatientMedicationAllocationController extends Controller
 
         // Fetch all patients and medication plans
         $patients = Patient::with('user')->get();
+        $doctors = Doctor::with('user')->get();
         $plans = MedicationPlan::all();
 
-        return view('admin.allocations.create', compact('patients', 'plans'));
+        return view('admin.allocations.create', compact('patients', 'doctors', 'plans'));
     }
     public function store(Request $request)
     {
@@ -28,7 +30,8 @@ class PatientMedicationAllocationController extends Controller
             'patient_id' => 'required|exists:patients,id',
             'plan_id' => 'required|exists:medication_plans,id',
             'recommendation_notes' => 'nullable|string',
-            "nurse_id" => ['sometimes', 'required|exists:nurses,id'],
+            "nurse_id" => ['sometimes', 'required', 'exists:nurses,id'],
+            "doctor_id" => ['sometimes', 'required', 'exists:doctors,id'],
         ]);
 
         // Create a new PatientMedicationPlan
@@ -36,6 +39,7 @@ class PatientMedicationAllocationController extends Controller
             'patient_id' => $validated['patient_id'],
             'medication_plan_id' => $validated['plan_id'],
             'nurse_id' => auth()->id(), // Assuming the nurse is logged in
+            "doctor_id" => $request->doctor_id,
             'recommendation_notes' => $validated['recommendation_notes'],
             'status' => 'active',
         ]);

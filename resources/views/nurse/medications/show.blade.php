@@ -23,14 +23,8 @@
 																<p><strong>Reason:</strong> {{ $medication->reason }}</p>
 												</div>
 												<div class="card-footer">
-																<a href="{{ route('doctor.medications.edit', $medication) }}" class="btn btn-warning">Edit</a>
-																<form action="{{ route('doctor.medications.destroy', $medication) }}" method="POST" class="d-inline">
-																				@csrf
-																				@method('DELETE')
-																				<button type="submit" class="btn btn-danger"
-																								onclick="return confirm('Are you sure you want to delete this medication?')">Delete</button>
-																</form>
-																<a href="{{ route('doctor.medications.index') }}" class="btn btn-secondary">Back to List</a>
+																<a href="{{ route('nurse.medications.edit', $medication) }}" class="btn btn-warning">Edit</a>
+																<a href="{{ route('nurse.medications.index') }}" class="btn btn-secondary">Back to List</a>
 												</div>
 								</div>
 				</div>

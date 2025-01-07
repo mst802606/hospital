@@ -3,17 +3,27 @@
 @section('page')
 				<div class="container mt-5">
 								<h1 class="mb-4">Edit Medication Plan</h1>
-								<form method="POST" action="{{ route('doctor.medication_plans.update', $plan->id) }}">
+								<form method="POST" action="{{ route('nurse.medication_plans.update', $plan->id) }}">
 												@csrf
 												@method('PUT')
 												<div class="mb-3">
 																<label for="name" class="form-label">Name:</label>
 																<input type="text" class="form-control" id="name" name="name" value="{{ old('name', $plan->name) }}"
-																				required>
+																				disabled required>
 												</div>
 												<div class="mb-3">
 																<label for="description" class="form-label">Description:</label>
-																<textarea class="form-control" id="description" name="description" rows="3">{{ old('description', $plan->description) }}</textarea>
+																<textarea class="form-control" id="description" name="description" rows="3" disabled>{{ old('description', $plan->description) }}</textarea>
+												</div>
+												<div class="mb-3">
+																<label for="form" class="form-label">Select Medication</label>
+																<select multiple class="form-select" id="form" name="form" disabled>
+																				@foreach ($medications as $medication)
+																								<option value="tabl" {{ old('form', $medication->name) == 'tabl' ? 'selected' : '' }}>
+																												{{ $medication->name }}</option>
+																				@endforeach
+
+																</select>
 												</div>
 												<div class="row">
 																<div class="col-3">
@@ -43,20 +53,9 @@
 																				</div>
 																</div>
 												</div>
-												<div class="mb-3">
-																<label for="form" class="form-label">Select Medication</label>
 
-																<a href="/doctor/medications/create" class="form-label">Or Add medication</a>
-																<select multiple class="form-select" id="form" name="form" required>
-																				@foreach ($medications as $medication)
-																								<option value="tabl" {{ old('form', $medication->name) == 'tabl' ? 'selected' : '' }}>
-																												{{ $medication->name }}</option>
-																				@endforeach
-
-																</select>
-												</div>
 												<div class="form-group form-check mt-3">
-																<input type="checkbox" class="form-check-input" id="is_active" name="is_active"
+																<input type="checkbox" class="form-check-input" id="is_active" name="is_active" value="1"
 																				{{ old('is_active', $plan->is_active) ? 'checked' : '' }}>
 																<label class="form-check-label" for="is_active">Is Active</label>
 												</div>

@@ -34,6 +34,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Nurse\AppointmentController as NurseAppointmentController;
 use App\Http\Controllers\Nurse\MedicationController as NurseMedicationController;
 use App\Http\Controllers\Nurse\MedicationPlanController as NurseMedicationPlanController;
+use App\Http\Controllers\Nurse\OfferPatientMedication;
 use App\Http\Controllers\Nurse\PatientController as NursePatientController;
 use App\Http\Controllers\Nurse\WardController;
 use App\Http\Controllers\Patient\AppointmentController as PatientAppointmentController;
@@ -106,7 +107,7 @@ Route::prefix('/doctor')->name('doctor.')->middleware(['auth', 'doctor'])->group
     }
 );
 
-Route::prefix('/nurse')->name('nurse.')->middleware(['nurse', 'auth'])->group(
+Route::prefix('/nurse')->name('nurse.')->middleware(['auth', 'nurse', 'medication.due'])->group(
     function () {
         Route::get('/home', [HomeController::class, 'index'])->name('home');
 
@@ -138,6 +139,11 @@ Route::prefix('/nurse')->name('nurse.')->middleware(['nurse', 'auth'])->group(
 
         //nurses
         Route::resource('nurses', DoctorNurseController::class);
+
+        Route::get('offer-medication', [OfferPatientMedication::class, 'index'])->name('patients.offer-medications.index');
+        Route::get('offer-medication/{patient_id}', [OfferPatientMedication::class, 'show'])->name('patients.offer-medications.show');
+        Route::get('offer-medication/{patient_id}/medication_plan/{medication_plan_id}', [OfferPatientMedication::class, 'edit'])->name('patients.offer-medications');
+        Route::put('offer-medication/{patient_id}/medication_plan/{medication_id}', [OfferPatientMedication::class, 'update'])->name('patients.offer-medications');
 
         // medications
         Route::resource('medications', NurseMedicationController::class);

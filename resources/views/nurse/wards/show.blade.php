@@ -41,7 +41,7 @@
 																																																<th scope="row">{{ $patient->id }}</th>
 																																																<td>{{ $patient->user->username ?? 'N/A' }}</td>
 																																																<td>{{ $ward->name ?? 'N/A' }}</td>
-																																																<td> <a href="{{ route('nurse.patients.index') }}"><span
+																																																<td> <a href="{{ route('nurse.patients.show', ['patient' => $patient]) }}"><span
 																																																												class="badge badge-success">View</span></a></td>
 																																												</tr>
 																																								@empty

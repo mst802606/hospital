@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 class PatientMedicationAllocationController extends Controller
 {
     //
-
     public function create()
     {
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\MedicationDueNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -54,6 +55,16 @@ class Nurse extends Model
     {
         # code...
         return $this->hasMany(Messages::class, 'doctor_id');
+    }
+
+    public static function notifyNursesOnMedication(Patient $patient, $message = null)
+    {
+
+        $nurses = $patient->ward->nurses;
+
+        foreach ($nurses as $nurse) {
+            $nurse->user->notify(new MedicationDueNotification($patient, $patient->ward, $message));
+        }
     }
 
 }

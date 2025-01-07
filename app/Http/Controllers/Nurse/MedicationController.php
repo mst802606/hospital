@@ -77,7 +77,7 @@ class MedicationController extends BaseController
         $medication->update($request->all());
 
         // Redirect with success message
-        return redirect()->route('admin.medications.index')
+        return redirect()->route('nurse.medications.index')
             ->with('success', 'Medication updated successfully.');
     }
 

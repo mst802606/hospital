@@ -18,36 +18,41 @@
 																<p><strong>Status:</strong> {{ $patient->status ? 'Active' : 'Inactive' }}</p>
 												</div>
 												<div class="card">
-																<div class="table-responsive">
-																				<table class="table table-bordered table-striped">
-																								<thead class="table-dark">
-																												<tr>
-																																<th>Name</th>
-																																<th>Description</th>
-																																<th>Start Date</th>
-																																<th>Start Time</th>
-																																<th>Is Active</th>
-																																<th>Actions</th>
-																												</tr>
-																								</thead>
-																								<tbody>
-																												@foreach ($patient->medicationPlans as $plan)
+																<div class="card-header">
+																				<h4>Patient medications</h4>
+																</div>
+																<div class="card-body">
+																				<div class="table-responsive">
+																								<table class="table table-bordered table-striped">
+																												<thead class="table-dark">
 																																<tr>
-																																				<td>{{ $plan->name }}</td>
-																																				<td>{{ $plan->description }}</td>
-																																				<td>{{ $plan->start_date }}</td>
-																																				<td>{{ $plan->start_time }}</td>
-																																				<td>{{ $plan->is_active ? 'Yes' : 'No' }}</td>
-																																				<td>
-																																								<a href="{{ route('nurse.medication_plans.show', $plan) }}"
-																																												class="btn btn-info btn-sm">View</a>
-																																								<a href="{{ route('nurse.medication_plans.edit', $plan) }}"
-																																												class="btn btn-warning btn-sm">Edit</a>
-																																				</td>
+																																				<th>Name</th>
+																																				<th>Description</th>
+																																				<th>Start Date</th>
+																																				<th>Start Time</th>
+																																				<th>Is Active</th>
+																																				<th>Actions</th>
 																																</tr>
-																												@endforeach
-																								</tbody>
-																				</table>
+																												</thead>
+																												<tbody>
+																																@foreach ($patient->medicationPlans as $plan)
+																																				<tr>
+																																								<td>{{ $plan->name }}</td>
+																																								<td>{{ $plan->description }}</td>
+																																								<td>{{ $plan->start_date }}</td>
+																																								<td>{{ $plan->start_time }}</td>
+																																								<td>{{ $plan->is_active ? 'Yes' : 'No' }}</td>
+																																								<td>
+																																												<a href="{{ route('nurse.medication_plans.show', $plan) }}"
+																																																class="btn btn-info btn-sm">View</a>
+																																												<a href="{{ route('nurse.medication_plans.edit', $plan) }}"
+																																																class="btn btn-warning btn-sm">Edit</a>
+																																								</td>
+																																				</tr>
+																																@endforeach
+																												</tbody>
+																								</table>
+																				</div>
 																</div>
 												</div>
 								</div>

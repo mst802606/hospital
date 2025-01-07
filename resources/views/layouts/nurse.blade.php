@@ -37,7 +37,7 @@
 																												class="navbar-toggler-icon"></span></button>
 																</div>
 																<div class="container-fluid">
-																				<h6>Welcome Dr {{ auth()->user()->username }}</h6>
+																				<h6>Welcome Nurse {{ auth()->user()->username }}</h6>
 																</div>
 																<div class="container-fluid">
 																</div>

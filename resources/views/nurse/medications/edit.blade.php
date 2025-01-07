@@ -3,7 +3,7 @@
 @section('page')
 				<div class="container mt-5">
 								<h1 class="mb-4">Edit Medication</h1>
-								<form method="POST" action="{{ route('doctor.medications.update', $medication) }}">
+								<form method="POST" action="{{ route('nurse.medications.update', $medication) }}">
 												@csrf
 												@method('PUT')
 												<div class="mb-3">
@@ -80,7 +80,7 @@
 																<textarea class="form-control" id="reason" name="reason" rows="3" required>{{ old('reason', $medication->reason) }}</textarea>
 												</div>
 												<button type="submit" class="btn btn-primary">Update</button>
-												<a href="{{ route('doctor.medications.index') }}" class="btn btn-secondary">Cancel</a>
+												<a href="{{ route('nurse.medications.index') }}" class="btn btn-secondary">Cancel</a>
 								</form>
 				</div>
 @endsection

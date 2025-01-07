@@ -79,16 +79,14 @@ class MedicationPlanController extends BaseController
      */
     public function update(UpdateMedicationPlanRequest $request, MedicationPlan $medicationPlan)
     {
-        $medicationPlan->update([
-            'name' => $request->name,
-            'description' => $request->description,
-            "start_date" => $request->start_date,
-            "start_time" => $request->start_time,
-            "is_active" => true,
-        ]);
+        $result = $medicationPlan->update(
+            $request->all());
+        if (!$result) {
+            return back()->with('error', 'Failed to update medication plan');
+        }
 
         // Redirect to the index page with a success message
-        return redirect()->route('admin.medication_plans.show', ['medication_plan' => $medicationPlan->id])
+        return redirect()->route('nurse.medication_plans.show', ['medication_plan' => $medicationPlan->id])
             ->with('success', 'Medication Plan updated successfully.');
 
     }

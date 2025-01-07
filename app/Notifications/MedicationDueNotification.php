@@ -15,7 +15,7 @@ class MedicationDueNotification extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct(public Patient $patient, public Ward $ward)
+    public function __construct(public Patient $patient, public Ward $ward, public $message)
     {
         //
     }
@@ -58,8 +58,9 @@ class MedicationDueNotification extends Notification
             //
 
             'data' => $data,
-            'link' => "/doctor/messages",
-            'message' => "Patient " . $this->patient->id . " in ward " . $this->ward->name . " requires medication",
+            'link' => route('patients.offer-medications.show', ['patient' => $this->patient]),
+            'message' => $this->message ? $this->message . " for patient " . $this->patient->id . " in ward " . $this->ward->name . " requires medication"
+            : "Patient " . $this->patient->id . " in ward " . $this->ward->name . " requires medication",
 
         ];
     }

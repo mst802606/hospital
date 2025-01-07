@@ -47,13 +47,6 @@
 																																				class="btn btn-info btn-sm">View</a>
 																																<a href="{{ route('doctor.medications.edit', $medication) }}"
 																																				class="btn btn-warning btn-sm">Edit</a>
-																																<form action="{{ route('doctor.medications.destroy', $medication) }}" method="POST"
-																																				class="d-inline">
-																																				@csrf
-																																				@method('DELETE')
-																																				<button type="submit" class="btn btn-danger btn-sm"
-																																								onclick="return confirm('Are you sure you want to delete this medication?')">Delete</button>
-																																</form>
 																												</td>
 																								</tr>
 																				@endforeach

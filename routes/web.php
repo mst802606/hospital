@@ -134,14 +134,8 @@ Route::prefix('/nurse')->name('nurse.')->middleware(['auth', 'nurse', 'medicatio
         //messages
         Route::resource('messages', MessageController::class);
 
-        //donantion
-        Route::resource('donations', DoctorDonationController::class);
-
-        //nurses
-        Route::resource('nurses', DoctorNurseController::class);
-
         Route::get('offer-medication', [OfferPatientMedication::class, 'index'])->name('patients.offer-medications.index');
-        Route::get('offer-medication/{patient_id}', [OfferPatientMedication::class, 'show'])->name('patients.offer-medications.show');
+        Route::get('offer-medication/show/{patient_id}', [OfferPatientMedication::class, 'show'])->name('patients.offer-medications.show');
         Route::get('offer-medication/{patient_id}/medication_plan/{medication_plan_id}', [OfferPatientMedication::class, 'edit'])->name('patients.offer-medications');
         Route::put('offer-medication/{patient_id}/medication_plan/{medication_id}', [OfferPatientMedication::class, 'update'])->name('patients.offer-medications');
 

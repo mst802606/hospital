@@ -53,8 +53,11 @@ class OfferPatientMedication extends BaseController
         $ward_ids = $this->nurse()->wards()->pluck('wards.id');
 
         $patient = Patient::where('id', $id)
-            ->whereHas('medicationPlans')
-            ->get();
+            // ->whereHas('medicationPlans')
+            ->with('medicationPlans')
+            ->first();
+
+            // dd($patient);
 
         return view('nurse.medications.offer_medication.show', compact('patient'));
     }

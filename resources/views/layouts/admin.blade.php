@@ -10,12 +10,12 @@
 																<hr>
 																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
 																				href="{{ route('admin.wards.index') }}">Wards</a>
-																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
-																				href="{{ route('admin.appointments.index') }}">Appointments</a>
+																{{--  <a class="list-group-item list-group-item-action list-group-item-dark p-3"
+																				href="{{ route('admin.appointments.index') }}">Appointments</a>  --}}
 																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
 																				href="{{ route('admin.hospitals.index') }}">Hospital</a>
-																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
-																				href="{{ route('admin.visits.index') }}">Visits</a>
+																{{--  <a class="list-group-item list-group-item-action list-group-item-dark p-3"
+																				href="{{ route('admin.visits.index') }}">Visits</a>  --}}
 																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
 																				href="{{ route('admin.diagnoses.index') }}">Diagnoses</a>
 																<a class="list-group-item list-group-item-action list-group-item-dark p-3"

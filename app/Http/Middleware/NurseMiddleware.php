@@ -15,9 +15,14 @@ class NurseMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->user()->role != 3) {
-            return abort(500)->with('You are not registered as a Nurse');
+        if (auth()->user()->role == 3 && auth()->user()->nurse) {
+
+            return $next($request);
+
+        } else {
+
+            return abort(500, 'You are not registered as a Nurse')->with('error', 'You are not registered as a Nurse');
         }
-        return $next($request);
+
     }
 }

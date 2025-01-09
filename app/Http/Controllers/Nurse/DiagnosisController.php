@@ -67,7 +67,7 @@ class DiagnosisController extends BaseController
         $validated['patient_rating'] = 0;
         $validated['doctor_id'] = $this->doctor()->id;
 
-        $patient->diagnosis()->create(
+        $patient->diagnoses()->create(
             $validated->all(),
         );
         return redirect(route('doctor.diagnoses.index'))->with('success', 'Diagnosis added successfully');

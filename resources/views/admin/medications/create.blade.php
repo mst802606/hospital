@@ -5,6 +5,18 @@
 								<h1 class="mb-4">Add Medication</h1>
 								<form method="POST" action="{{ route('admin.medications.store') }}">
 												@csrf
+
+												<div class="mb-3">
+																<label for="form" class="form-label">Medication Plan : <a
+																								href="{{ route('admin.medication_plans.create') }}">or Create a plan</a></label>
+																<select class="form-select" id="form" name="medication_plan_id" required>
+																				@forelse ($medication_plans as $plan)
+																								<option value="{{ $plan->id }}">{{ $plan->name }}</option>
+																				@empty
+																								<a href="{{ route('admin.medication_plans.create') }}">Create plan</a>
+																				@endforelse
+																</select>
+												</div>
 												<div class="mb-3">
 																<label for="name" class="form-label">Medication Name:</label>
 																<input type="text" class="form-control" id="name" name="name" required>

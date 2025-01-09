@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Doctor;
 use Illuminate\Database\Seeder;
 
 class DoctorSeeder extends Seeder
@@ -13,6 +13,6 @@ class DoctorSeeder extends Seeder
     public function run(): void
     {
         //
-        \App\Models\Doctor::factory(4)->create();
+        Doctor::factory(4)->create();
     }
 }

@@ -16,15 +16,16 @@ class PatientFactory extends Factory
      * @return array<string, mixed>
      */
 
-     protected $model = Patient::class;
+    protected $model = Patient::class;
     public function definition(): array
     {
         return [
             //
-            'user_id'=>1,
-            'hospital_id'=>1,
-            'admitted'=>$this->faker->boolean(),
-            'status'=>$this->faker->boolean(),
+            'user_id' => 1,
+            'hospital_id' => 1,
+            'ward_id' => 1,
+            'admitted' => $this->faker->boolean(),
+            'status' => $this->faker->boolean(),
         ];
     }
 }

@@ -5,7 +5,6 @@ use App\Http\Controllers\Admin\AllocateNursesToWardController;
 use App\Http\Controllers\Admin\AppointmentController as AdminAppointmentController;
 use App\Http\Controllers\Admin\DiagnosisController as AdminDiagnosisController;
 use App\Http\Controllers\Admin\DoctorController;
-use App\Http\Controllers\Admin\DonationController as AdminDonationController;
 use App\Http\Controllers\Admin\HospitalController as AdminHospitalController;
 use App\Http\Controllers\Admin\MedicationController as AdminMedicationController;
 use App\Http\Controllers\Admin\MedicationPlanController as AdminMedicationPlanController;
@@ -17,32 +16,23 @@ use App\Http\Controllers\Admin\VisitController as AdminVisitController;
 use App\Http\Controllers\Admin\WardController as AdminWardController;
 use App\Http\Controllers\Auth\DoctorRegisterController;
 use App\Http\Controllers\Auth\NurseRegisterController;
-use App\Http\Controllers\Doctor\AppointmentController;
 use App\Http\Controllers\Doctor\DiagnosisController;
-use App\Http\Controllers\Doctor\DonationController as DoctorDonationController;
 use App\Http\Controllers\Doctor\HospitalController;
 use App\Http\Controllers\Doctor\MedicationController as DoctorMedicationController;
 use App\Http\Controllers\Doctor\MedicationPlanController as DoctorMedicationPlanController;
 use App\Http\Controllers\Doctor\MessageController;
-use App\Http\Controllers\Doctor\NurseController as DoctorNurseController;
 use App\Http\Controllers\Doctor\PatientMedicationAllocationController as DoctorPatientMedicationAllocationController;
-use App\Http\Controllers\Doctor\VisitController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Hospital\DonationController as HospitalDonationController;
 use App\Http\Controllers\Hospital\VisitController as HospitalVisitController;
 use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\Nurse\AppointmentController as NurseAppointmentController;
+use App\Http\Controllers\Nurse\HospitalController as NurseHospitalController;
 use App\Http\Controllers\Nurse\MedicationController as NurseMedicationController;
 use App\Http\Controllers\Nurse\MedicationPlanController as NurseMedicationPlanController;
+use App\Http\Controllers\Nurse\MessageController as NurseMessageController;
 use App\Http\Controllers\Nurse\OfferPatientMedication;
 use App\Http\Controllers\Nurse\PatientController as NursePatientController;
 use App\Http\Controllers\Nurse\WardController;
-use App\Http\Controllers\Patient\AppointmentController as PatientAppointmentController;
-use App\Http\Controllers\Patient\DiagnosisController as PatientDiagnosisController;
-use App\Http\Controllers\Patient\DonationController;
-use App\Http\Controllers\Patient\HospitalController as PatientHospitalController;
-use App\Http\Controllers\Patient\MessageController as PatientMessageController;
-use App\Http\Controllers\Patient\VisitController as PatientVisitController;
 use App\Repositories\Schedule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -76,33 +66,30 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::prefix('/doctor')->name('doctor.')->middleware(['auth', 'doctor'])->group(
     function () {
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-        //Appointments
-        Route::resource('appointments', AppointmentController::class);
 
         //Hospital
         Route::resource('hospitals', HospitalController::class);
-
-        //Visits
-        Route::resource('visits', VisitController::class);
-        Route::get('visits/create/{appointment}', [VisitController::class, 'create'])->name('visits.create');
-
         //diagnosis
         Route::resource('diagnoses', DiagnosisController::class);
-        Route::get('diagnoses/create/{visit}', [DiagnosisController::class, 'create'])->name('diagnoses.create');
+        // Route::get('diagnoses/create/{visit}', [DiagnosisController::class, 'create'])->name('diagnoses.create');
 
         //messages
         Route::resource('messages', MessageController::class);
 
-        //donantion
-        Route::resource('donations', DoctorDonationController::class);
-
         //nurses
-        Route::resource('nurses', DoctorNurseController::class);
+        // Route::resource('nurses', DoctorNurseController::class);
 
         // medications
+        Route::get('medication_plans/{medication_plan}/medications/create', [DoctorMedicationController::class, 'create'])->name('medication.create_for_plan');
         Route::resource('medications', DoctorMedicationController::class);
+
+        //medication plans
         Route::resource('medication_plans', DoctorMedicationPlanController::class);
+
+        //allocate medication plan
         Route::get('allocations/create', [DoctorPatientMedicationAllocationController::class, 'create'])->name('allocations.create');
+        Route::get('allocations/patients/create/{id}', [DoctorPatientMedicationAllocationController::class, 'placePatientOnMedicatonPlan'])->name('allocations.patients');
+
         Route::post('allocations', [DoctorPatientMedicationAllocationController::class, 'store'])->name('allocations.store');
     }
 );
@@ -117,35 +104,23 @@ Route::prefix('/nurse')->name('nurse.')->middleware(['auth', 'nurse', 'medicatio
         //wards
         Route::resource('wards', WardController::class);
 
-        //Appointments
-        Route::resource('appointments', NurseAppointmentController::class);
-
         //Hospitals
-        Route::resource('hospitals', HospitalController::class);
-
-        //Visits
-        Route::resource('visits', VisitController::class);
-        Route::get('visits/create/{appointment}', [VisitController::class, 'create'])->name('visits.create');
+        Route::resource('hospitals', NurseHospitalController::class);
 
         //diagnosis
         Route::resource('diagnoses', DiagnosisController::class);
-        Route::get('diagnoses/create/{visit}', [DiagnosisController::class, 'create'])->name('diagnoses.create');
 
         //messages
-        Route::resource('messages', MessageController::class);
-
-        //donantion
-        Route::resource('donations', DoctorDonationController::class);
-
-        //nurses
-        Route::resource('nurses', DoctorNurseController::class);
+        Route::resource('messages', NurseMessageController::class);
 
         Route::get('offer-medication', [OfferPatientMedication::class, 'index'])->name('patients.offer-medications.index');
-        Route::get('offer-medication/{patient_id}', [OfferPatientMedication::class, 'show'])->name('patients.offer-medications.show');
+        Route::get('offer-medication/show/{patient_id}', [OfferPatientMedication::class, 'show'])->name('patients.offer-medications.show');
+
         Route::get('offer-medication/{patient_id}/medication_plan/{medication_plan_id}', [OfferPatientMedication::class, 'edit'])->name('patients.offer-medications');
         Route::put('offer-medication/{patient_id}/medication_plan/{medication_id}', [OfferPatientMedication::class, 'update'])->name('patients.offer-medications');
 
         // medications
+
         Route::resource('medications', NurseMedicationController::class);
         Route::resource('medication_plans', NurseMedicationPlanController::class);
     }
@@ -154,24 +129,6 @@ Route::prefix('/patient')->name('patient.')->middleware(['patient', 'auth'])->gr
     function () {
         //home
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-        //Appointments
-        Route::resource('appointments', PatientAppointmentController::class);
-
-        //Hospital
-        Route::resource('hospitals', PatientHospitalController::class);
-
-        //Visits
-        Route::resource('visits', PatientVisitController::class);
-
-        //diagnosis
-        Route::resource('diagnoses', PatientDiagnosisController::class);
-
-        //messages
-        Route::resource('messages', PatientMessageController::class);
-
-        //donantion
-        Route::resource('donations', DonationController::class);
     }
 );
 Route::prefix('/hospital')->name('hospital.')->middleware(['hospital', 'auth'])->group(
@@ -216,9 +173,6 @@ Route::prefix('/admin')->name('admin.')->middleware(['admin', 'auth'])->group(
         //messages
         Route::resource('messages', AdminMessageController::class);
 
-        //donantion
-        Route::resource('donations', AdminDonationController::class);
-
         //doctor
         Route::resource('doctors', DoctorController::class);
 
@@ -229,9 +183,13 @@ Route::prefix('/admin')->name('admin.')->middleware(['admin', 'auth'])->group(
         Route::resource('nurses', AdminNurseController::class);
 
         // medications
+        Route::get('medication_plans/{medication_plan}/medications/create', [AdminMedicationController::class, 'create'])->name('medication.create_for_plan');
         Route::resource('medications', AdminMedicationController::class);
         Route::resource('medication_plans', AdminMedicationPlanController::class);
+
         Route::get('allocations/create', [AdminPatientMedicationAllocationController::class, 'create'])->name('allocations.create');
+        Route::get('allocations/patient/{patient}/create', [AdminPatientMedicationAllocationController::class, 'placePatientOnMedicatonPlan'])->name('allocations.patients.create');
+
         Route::post('allocations', [AdminPatientMedicationAllocationController::class, 'store'])->name('allocations.store');
 
     }

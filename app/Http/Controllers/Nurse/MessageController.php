@@ -21,9 +21,9 @@ class MessageController extends BaseController
     public function index()
     {
         //
-        $messages = Messages::where('doctor_id', $this->doctor()->id)->orWhere('doctor_id', null)->orderBy('created_at', 'DESC')->orderBy('doctor_id', 'ASC')->get();
+        $messages = Messages::where('nurse_id', $this->nurse()->id)->orWhere('nurse_id', null)->orderBy('created_at', 'DESC')->orderBy('nurse_id', 'ASC')->get();
         $messagesdata['messages'] = $messages;
-        $messagesdata['message'] = $messages->where('doctor_id', auth()->id())->first();
+        $messagesdata['message'] = $messages->where('nurse_id', auth()->id())->first();
         return view('nurse.messages.messages', compact('messagesdata'));
     }
 
@@ -45,7 +45,7 @@ class MessageController extends BaseController
     {
         //
         //   dd( $request->all());
-        $result = $this->doctor()->messages()
+        $result = $this->nurse()->messages()
             ->create(
                 $request->all(),
             );
@@ -55,7 +55,7 @@ class MessageController extends BaseController
 
         $this->sendNotification($result);
 
-        return redirect(route('doctor.messages.index'))->with('Success! Message sent. Await response');
+        return redirect(route('nurse.messages.index'))->with('Success! Message sent. Await response');
     }
     /**
      * Display the specified resource.
@@ -63,7 +63,7 @@ class MessageController extends BaseController
     public function show(string $id)
     {
         $message = Messages::where('id', $id)->orderBy('created_at', 'ASC')->with('patient.user')->first();
-        $messages = Messages::where('doctor_id', $this->doctor()->id)->orWhere('doctor_id', null)->orderBy('created_at', 'DESC')->orderBy('doctor_id', 'ASC')->get();
+        $messages = Messages::where('nurse_id', $this->nurse()->id)->orWhere('nurse_id', null)->orderBy('created_at', 'DESC')->orderBy('nurse_id', 'ASC')->get();
         $messagesdata['messages'] = $messages;
         $messagesdata['message'] = $message;
         return view('nurse.messages.messages', compact('messagesdata'));
@@ -85,7 +85,7 @@ class MessageController extends BaseController
         //
         //
         $response = array(
-            "key" => "doctor",
+            "key" => "nurse",
             "message" => $request->text_reply,
             "time" => now(),
         );
@@ -98,7 +98,7 @@ class MessageController extends BaseController
         $replies = json_encode($replies);
         $result = $message->update(
             [
-                'doctor_id' => $this->doctor()->id,
+                'nurse_id' => $this->nurse()->id,
                 'replies' => $replies,
             ],
         );
@@ -107,7 +107,7 @@ class MessageController extends BaseController
         }
 
         $this->sendNotification($message);
-        return redirect(route('doctor.messages.show', ['message' => $id]))->with('success', 'Message sent');
+        return redirect(route('nurse.messages.show', ['message' => $id]))->with('success', 'Message sent');
     }
 
     /**
@@ -121,7 +121,7 @@ class MessageController extends BaseController
             return back()->with('error', 'This item could not be deleted');
         }
 
-        return redirect(route('doctor.messages.index'))->with('success', 'This item has been deleted successfully');
+        return redirect(route('nurse.messages.index'))->with('success', 'This item has been deleted successfully');
     }
 
     public function sendNotification($message)

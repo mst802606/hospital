@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('diagnoses', function (Blueprint $table) {
             $table->id();
-            $table->integer("doctor_id");
-            $table->integer("visit_id");
+            $table->foreignId("doctor_id")->references('id')->on('doctors');
+            $table->foreignId("patient_id")->references('id')->on('patients');
+            $table->foreignId("visit_id")->nullable()->references('id')->on('visits');
             $table->longText("diagnosis");
             $table->longText("prescription");
             $table->longText("regulation");
-            $table->longText("message");
+            $table->longText("message")->nullable();
             $table->longText("patient_comment")->nullable();
-            $table->integer("patient_rating");
+            $table->integer("patient_rating")->default(0);
             $table->boolean("status")->default(false);
             $table->timestamps();
         });

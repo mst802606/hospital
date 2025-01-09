@@ -21,7 +21,7 @@ class DoctorFactory extends Factory
     {
         return [
             //
-            "user_id"=>2,
+            "hospital_id" => 1,
             'tag' => $this->faker->imei(),
             'department' => $this->faker->jobTitle(),
             'role' => $this->faker->jobTitle(),

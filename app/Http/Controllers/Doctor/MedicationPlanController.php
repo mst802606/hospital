@@ -87,6 +87,14 @@ class MedicationPlanController extends Controller
             "is_active" => true,
         ]);
 
+        $medicationPlan = MedicationPlan::where('id', $medicationPlan->id)->first();
+
+        $result = $medicationPlan->medications()->toggle($request->medications);
+
+        if (!$result) {
+            return back()->with('error', 'Medication plan could not be updated');
+        }
+
         // Redirect to the index page with a success message
         return redirect()->route('doctor.medication_plans.show', ['medication_plan' => $medicationPlan->id])
             ->with('success', 'Medication Plan updated successfully.');

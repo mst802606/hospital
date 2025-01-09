@@ -33,10 +33,10 @@ class Patient extends Model
         return $this->hasMany(Visits::class, 'patient_id');
     }
 
-    public function diagnosis()
+    public function diagnoses()
     {
         # code...
-        return $this->belongsToMany(Diagnosis::class, 'diagnosis_patients');
+        return $this->hasMany(Diagnosis::class, 'patient_id');
     }
 
     public function messages()
@@ -71,6 +71,17 @@ class Patient extends Model
 
     public function medications()
     {
-        return $this->belongsToMany(Medication::class, 'medications_patients');
+        return $this->belongsToMany(Medication::class, 'medications_patients')->withPivot(
+            "nurse_id",
+            "doctor_id",
+            "amount_taken_morning",
+            "amount_taken_noon",
+            "amount_taken_evening",
+            "amount_taken_night",
+            "total_amount_given",
+            "recommendation_notes",
+            "last_given",
+            "status",
+        );
     }
 }

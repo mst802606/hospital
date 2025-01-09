@@ -58,7 +58,7 @@ class MedicationDueNotification extends Notification
             //
 
             'data' => $data,
-            'link' => route('patients.offer-medications.show', ['patient' => $this->patient]),
+            'link' => route('nurse.patients.offer-medications.show', ['patient_id' => $this->patient->id]),
             'message' => $this->message ? $this->message . " for patient " . $this->patient->id . " in ward " . $this->ward->name . " requires medication"
             : "Patient " . $this->patient->id . " in ward " . $this->ward->name . " requires medication",
 

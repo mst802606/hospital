@@ -53,13 +53,13 @@ class AllocateNursesToWardController extends BaseController
 
         $ward = Ward::where('id', $request->ward_id)->first();
 
-        $result = $nurse->wards()->attach([$ward->id]);
-
+        $nurse->wards()->syncWithoutDetaching([$ward->id]);
+        $result = $nurse->wards()->where('wards.id', $ward->id)->first();
         if (!$result) {
             return back()->with('error', "The nurse could not be allocated to the ward.");
         }
 
-        return redirect(route('admin.allocate_wards.index'))->with('success', "Nurse allocated to the ward");
+        return redirect(route('admin.wards.show', ['ward' => $ward]))->with('success', "Nurse allocated to the ward");
     }
 
     /**

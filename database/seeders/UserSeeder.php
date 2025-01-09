@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Patient;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -14,9 +14,16 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         //
-        User::factory(1)
-            // ->hasPatient(4)
-            // ->hasDoctor(5)
-            ->create();
+        // Create the admin user
+        User::factory()->admin()->create();
+
+        // Create the doctor user
+        User::factory()->doctor()->hasDoctor(1)->create();
+
+        // Create the nurse user
+        User::factory()->nurse()->hasNurse(1)->create();
+
+        // Create the patient user
+        User::factory(10)->patient()->hasPatient(1)->create();
     }
 }

@@ -17,6 +17,10 @@
 								<h4 class="mb-4">Medications</h4>
 								<div class="card">
 												<div class="card-body">
+																<a href="{{ route('admin.medication.create_for_plan', ['medication_plan' => $plan->id]) }}"
+																				class="btn btn-outline-info float-right">Add medication</a>
+												</div>
+												<div class="card-body">
 																<div class="table-responsive">
 																				<table class="table table-striped table-hover">
 																								<thead>
@@ -77,6 +81,10 @@
 								</div>
 								<h4 class="mb-4">Patients</h4>
 								<div class="card">
+												<div class="card-header">
+																<a href="{{ route('admin.allocations.create') }}" class="btn btn-outline-info float-right">Place patient
+																				under plan</a>
+												</div>
 												<div class="card-body">
 																<div class="table-responsive">
 																				<table class="table table-striped table-hover">
@@ -85,7 +93,7 @@
 																																<th>ID</th>
 																																<th>Name</th>
 																																<th>Ward</th>
-																																<th>Actions</th>
+																																<th>Date</th>
 																												</tr>
 																								</thead>
 																								<tbody>
@@ -94,7 +102,7 @@
 																																				<td>{{ $patient->id }}</td>
 																																				<td>{{ $patient->user->username }}</td>
 																																				<td>{{ $patient->ward->name }}</td>
-																																				<td>{{ $patient->created_at }}</td>
+																																				<td>{{ $patient->created_at->diffForHumans() }}</td>
 																																</tr>
 																												@endforeach
 																								</tbody>

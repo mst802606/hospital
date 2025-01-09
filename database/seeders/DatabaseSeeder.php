@@ -4,8 +4,6 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\Donation;
-use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,10 +14,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-
         // \App\Models\Doctor::factory(4)->create();
         // \App\Models\Appointments::factory(4)->create();
-        \App\Models\Hospital::factory(1)->create();
+        \App\Models\Hospital::factory(1)->hasWards(4)->create();
 
         $this->call([
             UserSeeder::class,

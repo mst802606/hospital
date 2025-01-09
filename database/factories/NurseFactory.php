@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Nurse;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,10 +15,20 @@ class NurseFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    protected $model = Nurse::class;
+
     public function definition(): array
     {
         return [
             //
+            "hospital_id" => 1,
+            'tag' => $this->faker->imei(),
+            'department' => $this->faker->jobTitle(),
+            'role' => $this->faker->jobTitle(),
+            'office' => $this->faker->jobTitle(),
+            'office_days' => $this->faker->dayOfWeek(now()),
+            'office_hours' => rand(8, 21),
+            'available' => $this->faker->boolean(),
         ];
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Patient;
 
 use App\Http\Controllers\BaseController;
-use App\Http\Controllers\Controller;
 use App\Models\Diagnosis;
 use Illuminate\Http\Request;
 
@@ -20,7 +19,7 @@ class DiagnosisController extends BaseController
     public function index()
     {
         //
-        $diagnoses =  $this->patient()->diagnosis()->with('doctor.user')->whereHas('visit.appointment')->get();
+        $diagnoses = $this->patient()->diagnoses()->with('doctor.user')->whereHas('visit.appointment')->get();
         $diagnosesdata['diagnoses'] = $diagnoses;
         return view('patient.diagnosis.index', compact('diagnosesdata'));
     }
@@ -75,8 +74,10 @@ class DiagnosisController extends BaseController
         $result = $diagnosis->update(
             $request->except(['_method', '_token'])
         );
-        if (!$result)
+        if (!$result) {
             return back()->with('error', 'This item could not be updated');
+        }
+
         return redirect(route('patient.diagnoses.show', ['diagnosis' => $id]))->with('success', 'This item has been updated successfully');
     }
 
@@ -86,9 +87,11 @@ class DiagnosisController extends BaseController
     public function destroy(string $id)
     {
         //
-        $result =  Diagnosis::destroy($id);
-        if (!$result)
+        $result = Diagnosis::destroy($id);
+        if (!$result) {
             return back()->with('error', 'This item could not be deleted');
+        }
+
         return redirect(route('patient.diagnoses.index'))->with('success', 'This item has been deleted successfully');
     }
 }

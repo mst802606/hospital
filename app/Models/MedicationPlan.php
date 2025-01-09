@@ -27,6 +27,8 @@ class MedicationPlan extends Model
 
     public static function checkDueMedications()
     {
+
+        $mediaction_needed = false;
         $patients = self::where('is_active', true)
             ->with('patients')
             ->get()
@@ -48,13 +50,16 @@ class MedicationPlan extends Model
                     if ($medication->amount_taken_morning > 0 && !$pivot->amount_taken_morning &&
                         $now->between(Carbon::today(env('timezone'))->setTime(6, 30), Carbon::today(env('timezone'))->setTime(9, 30))
                     ) {
+                        $mediaction_needed = true;
                         Nurse::notifyNursesOnMedication($patient, "Morning medication needed");
+
                     }
 
                     // Noon medication (12 PM - 1 PM)
                     if ($medication->amount_taken_noon > 0 && !$pivot->amount_taken_noon &&
                         $now->between(Carbon::today(env('timezone'))->setTime(12, 0), Carbon::today(env('timezone'))->setTime(13, 30))
                     ) {
+                        $mediaction_needed = true;
                         Nurse::notifyNursesOnMedication($patient, "Noon medication needed");
                     }
 
@@ -62,6 +67,8 @@ class MedicationPlan extends Model
                     if ($medication->amount_taken_evening > 0 && !$pivot->amount_taken_evening &&
                         $now->between(Carbon::today(env('timezone'))->setTime(18, 0), Carbon::today(env('timezone'))->setTime(19, 30))
                     ) {
+
+                        $mediaction_needed = true;
                         Nurse::notifyNursesOnMedication($patient, "Evening medication needed");
 
                     }
@@ -70,13 +77,18 @@ class MedicationPlan extends Model
                     if ($medication->amount_taken_night > 0 && !$pivot->amount_taken_night &&
                         $now->between(Carbon::today(env('timezone'))->setTime(21, 0), Carbon::today(env('timezone'))->setTime(22, 30))
                     ) {
+
+                        $mediaction_needed = true;
                         Nurse::notifyNursesOnMedication($patient, "Night medication needed");
                     }
                 }
             } else {
+                $mediaction_needed = true;
                 Nurse::notifyNursesOnMedication($patient);
             }
         }
+
+        return $mediaction_needed;
     }
 
 }

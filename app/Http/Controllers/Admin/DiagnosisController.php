@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
-use App\Http\Controllers\Controller;
 use App\Models\Diagnosis;
 use App\Models\Doctor;
-use App\Models\Visits;
+use App\Models\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -23,7 +22,7 @@ class DiagnosisController extends BaseController
     public function index()
     {
         //
-        $diagnoses =  Diagnosis::with('patients.user')->with('doctor.user')->whereHas('visit.appointment')->orderBy('status','DESC')->orderBy('created_at','DESC')->get();
+        $diagnoses = Diagnosis::with('patient.user')->with('doctor.user')->orderBy('status', 'DESC')->orderBy('created_at', 'DESC')->get();
         $diagnosesdata['diagnoses'] = $diagnoses;
         return view('admin.diagnosis.index', compact('diagnosesdata'));
     }
@@ -31,15 +30,14 @@ class DiagnosisController extends BaseController
     /**
      * Show the form for creating a new resource.
      */
-    public function create($visit)
+    public function create()
     {
         //
-        $visit = Visits::where('id', $visit)->with('patient.user')->whereHas('appointment')->first();
-        $createdata['visit'] = $visit;
         $doctors = Doctor::with('user')
             ->get();
-        $createdata['doctors'] = $doctors;
-        return view('admin.diagnosis.create', compact('createdata'));
+        $patients = Patient::with('user')
+            ->get();
+        return view('admin.diagnosis.create', compact('doctors', 'patients'));
     }
 
     /**
@@ -48,17 +46,16 @@ class DiagnosisController extends BaseController
     public function store(Request $request)
     {
         //
-        // dd( $request->all());
         $validator = Validator::make($request->input(), [
-            'visit_id' => 'required',
+            // 'visit_id' => 'required',
             'diagnosis' => 'required',
             'prescription' => 'required',
             'regulation' => 'required',
             'message' => 'required',
             'status' => 'required',
             'doctor_id' => 'required',
+            'patient_id' => 'required',
         ]);
-
 
         if ($validator->fails()) {
             return back()
@@ -66,17 +63,15 @@ class DiagnosisController extends BaseController
                 ->withInput();
         }
 
-        $visit = Visits::where('id', $request->visit_id)->with('patient.user')->first();
+        // $visit = Visits::where('id', $request->visit_id)->with('patient.user')->first();
 
-        $patient = $visit->patient;
+        $patient = Patient::where('id', $request->patient_id)->first();
         $validated = $validator->safe();
-        $validated['patient_comment'] = "";
-        $validated['patient_rating'] = 0;
 
-        $patient->diagnosis()->create(
+        $diagnosis = $patient->diagnoses()->create(
             $validated->all(),
         );
-        return redirect(route('admin.diagnoses.index'))->with('success', 'Diagnosis added successfully');
+        return redirect(route('admin.diagnoses.show', ['diagnosis' => $diagnosis]))->with('success', 'Diagnosis added successfully');
     }
 
     /**
@@ -85,7 +80,7 @@ class DiagnosisController extends BaseController
     public function show(string $id)
     {
         //
-        $diagnosis = Diagnosis::where('id', $id)->with('patients.user')->with('visit.diagnosis')->first();
+        $diagnosis = Diagnosis::where('id', $id)->with('patient.user')->with('patient.diagnosis')->first();
         $diagnosisdata['diagnosis'] = $diagnosis;
         return view('admin.diagnosis.show', compact('diagnosisdata'));
     }
@@ -116,8 +111,10 @@ class DiagnosisController extends BaseController
         $result = $diagnosis->update(
             $request->except(['_method', '_token'])
         );
-        if (!$result)
+        if (!$result) {
             return back()->with('error', 'This item could not be updated');
+        }
+
         return redirect(route('admin.diagnoses.show', ['diagnosis' => $id]))->with('success', 'This item has been updated successfully');
     }
 
@@ -127,9 +124,11 @@ class DiagnosisController extends BaseController
     public function destroy(string $id)
     {
         //
-        $result =  Diagnosis::destroy($id);
-        if (!$result)
+        $result = Diagnosis::destroy($id);
+        if (!$result) {
             return back()->with('error', 'This item could not be deleted');
+        }
+
         return redirect(route('admin.diagnoses.index'))->with('success', 'This item has been deleted successfully');
     }
 }

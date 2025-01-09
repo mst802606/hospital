@@ -15,9 +15,9 @@ return new class extends Migration
         Schema::create('patient_medication_plans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('medication_plan_id')->constrained('medication_plans');
-            $table->foreignId('patient_id')->constrained('patients')->nullable();
-            $table->foreignId('nurse_id')->constrained('users')->nullable();
-            $table->foreignId('doctor_id')->constrained('users')->nullable();
+            $table->foreignId('patient_id')->nullable()->constrained('patients');
+            $table->foreignId('nurse_id')->nullable()->constrained('users');
+            $table->foreignId('doctor_id')->nullable()->constrained('users');
             $table->text('recommendation_notes')->nullable();
             $table->enum('status', ['pending', 'active', 'completed']);
             $table->timestamps();

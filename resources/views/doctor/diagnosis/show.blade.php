@@ -6,19 +6,29 @@
 				<div class="container-fluid bg-light">
 								<section>
 												<!--diagnosis header-->
-												<div class="container-fluid mt-5">
-																<a href="{{ route('doctor.diagnoses.index') }}" class="btn btn-primary m-2">Back</a>
-																<a href="{{ route('doctor.diagnoses.edit', ['diagnosis' => $diagnosis->id]) }}"
-																				class="btn btn-info m-2">Edit</a>
-																<a onclick="document.getElementById('diagnosis-delete-form').submit()" class="btn btn-danger m-2">Delete this
-																				item</a>
-																<form id="diagnosis-delete-form"
-																				action="{{ route('doctor.diagnoses.destroy', ['diagnosis' => $diagnosis->id]) }}" class="d-none"
-																				method="POST">
-																				@method('DELETE')
-																				@csrf
-																</form>
-																<a href="{{ route('doctor.allocations.create') }}" class="btn btn-info m-2">Add Medication Plan</a>
+												<div class="container-fluid mt-5 d-flex justify-content-between">
+																<div>
+																				<a href="{{ route('doctor.diagnoses.index') }}" class="btn btn-primary m-2">Back</a>
+																				<a href="{{ route('doctor.diagnoses.edit', ['diagnosis' => $diagnosis->id]) }}"
+																								class="btn btn-info m-2">Edit</a>
+
+
+																				<a href="/doctor/allocations/patients/create/{{ $diagnosis->patient->id }}" class="btn btn-info m-2">Place
+																								on
+																								Medication
+																								Plan</a>
+
+																</div>
+																<div>
+																				<a onclick="document.getElementById('diagnosis-delete-form').submit()"
+																								class="btn btn-outline-danger m-2"><i class="fa fa-trash"></i> Delete</a>
+																				<form id="diagnosis-delete-form"
+																								action="{{ route('doctor.diagnoses.destroy', ['diagnosis' => $diagnosis->id]) }}" class="d-none"
+																								method="POST">
+																								@method('DELETE')
+																								@csrf
+																				</form>
+																</div>
 												</div>
 												<!--diagnosis item-->
 												<section>
@@ -27,10 +37,8 @@
 																				<div class="col-md-6 col-xl-12 item">
 																								<div class="row">
 																												<p scope="col">id : {{ $diagnosis->id }}</p>
-																												<p scope="col">Doctor : {{ $diagnosis->doctor->user->username }}</p>
-																												<p scope="col">Visit : {{ $diagnosis->visit->appointment->title ?? 'N/A' }} <span
-																																				class="badge badge-info">on
-																																				{{ $diagnosis->visit->created_at->format('d m Y') ?? 'N/A' }}</span></p>
+																												<p scope="col">Doctor : {{ $diagnosis->doctor->tag }}
+																																{{ $diagnosis->doctor->user->username }}</p>
 																												<p scope="col">Diagnosis : {{ $diagnosis->diagnosis }}</p>
 																												<p scope="col">Prescription : {{ $diagnosis->prescription }}</p>
 																												<p scope="col">Regulation : {{ $diagnosis->regulation ?? 'N/A' }}</p>

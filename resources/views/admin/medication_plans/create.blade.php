@@ -16,7 +16,7 @@
 												<div class="row">
 																<div class="col-3">
 																				<div class="form-group">
-																								<label for="time">Date</label>
+																								<label for="time">Start Date</label>
 																								<div class="flatpickr @error('start_date') is-invalid @enderror">
 																												<input name="start_date" value="{{ old('start_date') }}" type="date-local" class="form-control"
 																																placeholder="Select Date.." data-input>
@@ -39,7 +39,7 @@
 																</div>
 																<div class="col-3">
 																				<div class="form-group">
-																								<label for="time">Time</label>
+																								<label for="time">Start Time</label>
 																								<div class="flatpickr  @error('start_time') is-invalid @enderror">
 																												<input name="start_time" type="time-local" value="{{ old('start_time') }}" class="form-control"
 																																placeholder="Select time.." data-input>

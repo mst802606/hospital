@@ -11,10 +11,10 @@ class Diagnosis extends Model
 
     protected $guarded = [];
 
-    public function patients()
+    public function patient()
     {
         # code...
-        return $this->belongsToMany(Patient::class, 'diagnosis_patients');
+        return $this->belongsTo(Patient::class, 'patient_id');
     }
 
     public function doctor()

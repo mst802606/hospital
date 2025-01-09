@@ -4,24 +4,20 @@ namespace App\Http\Controllers\Doctor;
 
 use App\Http\Controllers\BaseController;
 use App\Models\Diagnosis;
-use App\Models\Visits;
+use App\Models\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class DiagnosisController extends BaseController
 {
-    public function __construct()
-    {
 
-        $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         //
-        $diagnoses = $this->doctor()->diagnosis()->with('doctor.user')->whereHas('visit.appointment')->get();
+        $diagnoses = $this->doctor()->diagnosis()->with('doctor.user')->get();
         $diagnosesdata['diagnoses'] = $diagnoses;
         return view('doctor.diagnosis.index', compact('diagnosesdata'));
     }
@@ -29,12 +25,12 @@ class DiagnosisController extends BaseController
     /**
      * Show the form for creating a new resource.
      */
-    public function create($visit)
+    public function create()
     {
         //
-        $visit = Visits::where('id', $visit)->with('patient.user')->with('appointment')->first();
-        $createdata['visit'] = $visit;
-        return view('doctor.diagnosis.create', compact('createdata'));
+        $patients = Patient::with('user')
+            ->get();
+        return view('doctor.diagnosis.create', compact('patients'));
     }
 
     /**
@@ -45,7 +41,6 @@ class DiagnosisController extends BaseController
         //
 
         $validator = Validator::make($request->input(), [
-            'visit_id' => 'required',
             'diagnosis' => 'required',
             'prescription' => 'required',
             'regulation' => 'required',
@@ -59,18 +54,14 @@ class DiagnosisController extends BaseController
                 ->withInput();
         }
 
-        $visit = Visits::where('id', $request->visit_id)->with('patient.user')->first();
-
-        $patient = $visit->patient;
+        $patient = Patient::where('id', $request->patient_id)->first();
         $validated = $validator->safe();
-        $validated['patient_comment'] = "";
-        $validated['patient_rating'] = 0;
         $validated['doctor_id'] = $this->doctor()->id;
 
-        $patient->diagnosis()->create(
+        $result = $patient->diagnoses()->create(
             $validated->all(),
         );
-        return redirect(route('doctor.diagnoses.index'))->with('success', 'Diagnosis added successfully');
+        return redirect(route('doctor.diagnoses.show', ['diagnosis' => $result]))->with('success', 'Diagnosis added successfully');
     }
 
     /**
@@ -79,7 +70,8 @@ class DiagnosisController extends BaseController
     public function show(string $id)
     {
         //
-        $diagnosis = Diagnosis::where('id', $id)->with('doctor.user')->with('visit.diagnosis')->first();
+
+        $diagnosis = Diagnosis::where('id', $id)->with('doctor.user')->with('patient.user')->with('visit.diagnosis')->first();
         $diagnosisdata['diagnosis'] = $diagnosis;
         return view('doctor.diagnosis.show', compact('diagnosisdata'));
     }

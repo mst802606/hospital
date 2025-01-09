@@ -7,17 +7,14 @@ use Illuminate\Http\Request;
 
 class HospitalController extends BaseController
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         //
-        $hospital = $this->doctor()->hospital()->first();
+        $hospital = $this->nurse()->hospital()->first();
         $hospitaldata['hospital'] = $hospital;
         return view('nurse.hospital.index', compact('hospitaldata'));
     }

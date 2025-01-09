@@ -9,20 +9,13 @@
 																				href="{{ route('doctor.home') }}">Home</a>
 																<hr>
 																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
-																				href="{{ route('doctor.appointments.index') }}">Appointments</a>
-																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
 																				href="{{ route('doctor.hospitals.index') }}">Hospital</a>
 																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
-																				href="{{ route('doctor.visits.index') }}">Visits</a>
-																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
 																				href="{{ route('doctor.diagnoses.index') }}">Diagnoses</a>
-																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
-																				href="{{ route('doctor.nurses.index') }}">Nurses</a>
 																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
 																				href="{{ route('doctor.medication_plans.index') }}">Medication Plans</a>
 																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
 																				href="{{ route('doctor.medications.index') }}">Medication</a>
-																{{--  <a class="list-group-item list-group-item-action list-group-item-dark p-3" href="{{ route('doctor.donations.index' )}}">Donations</a>  --}}
 												</div>
 								</div>
 								<!-- Page content wrapper-->

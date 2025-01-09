@@ -1,5 +1,5 @@
-@extends('layouts.welcome')
-@section('content')
+@extends('layouts.admin')
+@section('page')
 				<section>
 								<!--Services-->
 								<div class="row mx-auto justify-content-center mt-4 p-3">
@@ -10,12 +10,7 @@
 																								</h3>
 																				</div>
 																</div>
-																<div class="row justify-content-center">
-																				<div class="col-md-6 col-xl-6">
-																								<p>With the assistance of cutting-edge technology,{{ config('app.name') }} helps to access reliable
-																												and instant online healthcare services</p>
-																				</div>
-																</div>
+
 												</div>
 												<div class="col col-md-4 col-xl-3  m-3 tile item">
 																<a href="{{ route('admin.wards.index') }} ">
@@ -54,20 +49,7 @@
 																				</div>
 																</a>
 												</div>
-												<div class="col col-md-4 col-xl-3  m-3 tile item">
-																<a href="{{ route('admin.visits.index') }} ">
-																				<div class="m-4 p-3">
-																								<div class="item-title">
-																												<p>Visits</p>
-																								</div>
-																								<div class="item-body">
-																												<p>
-																																Patient Visits
-																												</p>
-																								</div>
-																				</div>
-																</a>
-												</div>
+
 												<div class="col col-md-4 col-xl-3  m-3 tile item">
 																<a href="{{ route('admin.diagnoses.index') }} ">
 																				<div class="m-4 p-3">
@@ -83,25 +65,7 @@
 																</a>
 												</div>
 
-												<div class="col col-md-4 col-xl-3  m-3 tile item">
-																<a href="{{ route('admin.messages.index') }} ">
-																				<div class="m-4 p-3">
-																								<div class="item-title">
-																												<p>Messages</p>
-																								</div>
-																								<div class="item-body">
-																												<p>Patient messages
-																												</p>
-																								</div>
-																				</div>
-																</a>
-												</div>
-												<div class="row">
-																<div class="col-md-6 float-right">
-																				<div class="float-right">
-																								@include('admin.messages.index')</div>
-																</div>
-												</div>
+
 								</div>
-				</section>
+				</section>s
 @endsection

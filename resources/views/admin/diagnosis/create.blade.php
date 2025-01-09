@@ -1,13 +1,10 @@
 @extends('layouts.admin')
 @section('page')
-				@php
-								$doctors = $createdata['doctors'];
-				@endphp
 				<div class="container-fluid bg-light">
 								<section>
 												<!--appointment header-->
 												<div class="container-fluid mt-5">
-																<a href="{{ route('admin.visits.index') }}" class="btn btn-warning m-2">View Upcoming</a>
+																<a href="{{ route('admin.diagnoses.index') }}" class="btn btn-warning m-2">Back</a>
 												</div>
 												<!--appointment form-->
 												<section class=" m-5" id="appointment-form">
@@ -20,12 +17,30 @@
 																				</div>
 																				<form action="{{ route('admin.diagnoses.store') }}" method="POST">
 																								@csrf
+																								<!-- select patient-->
+																								<div class="form-group">
+																												<label for="patientselect">Patient</label>
+																												<select class="form-control form-control @error('patient_id') is-invalid @enderror"
+																																id="patientselect" name="patient_id" required>
+																																@foreach ($patients as $patient)
+																																				<option value="{{ $patient->id }}">
+																																								{{ ' ID ' . $patient->id . ' ' . $patient->user->username }}
+																																				</option>
+																																@endforeach
+
+																												</select>
+																												@error('patient_id')
+																																<span class="invalid-feedback" role="alert">
+																																				<strong>{{ $message }}</strong>
+																																</span>
+																												@enderror
+																								</div>
 																								<!-- select doctor-->
 																								<div class="form-group">
 																												<label for="doctorselect">Doctor</label>
 																												<select class="form-control form-control @error('doctor_id') is-invalid @enderror"
 																																id="doctorselect" name="doctor_id" required>
-																																@foreach ($createdata['doctors'] as $doctor)
+																																@foreach ($doctors as $doctor)
 																																				<option value="{{ $doctor->id }}">
 																																								{{ ' ID ' . $doctor->tag . ' ' . $doctor->user->username }}
 																																				</option>
@@ -74,17 +89,6 @@
 																												<textarea name="message" id="message" class="form-control @error('message') is-invalid @enderror"
 																												    placeholder="Enter doctors message here">{{ old('message') }}</textarea>
 																												@error('message')
-																																<span class="invalid-feedback" role="alert">
-																																				<strong>{{ $message }}</strong>
-																																</span>
-																												@enderror
-																								</div>
-																								<div class="form-group d-none">
-																												<label for="visit_id">Visit Id </label>
-																												<input name="visit_id" type="visit_id" value="{{ $createdata['visit']->id }}"
-																																class="form-control @error('visit_id') is-invalid @enderror" id="visit_id"
-																																aria-describedby="visit_id" placeholder="Enter visit_id" required>
-																												@error('visit_id')
 																																<span class="invalid-feedback" role="alert">
 																																				<strong>{{ $message }}</strong>
 																																</span>

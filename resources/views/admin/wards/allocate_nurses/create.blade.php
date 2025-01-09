@@ -38,7 +38,7 @@
 																								<!-- Create new user-->
 																								<div class="form-group">
 																												<label for="doctorselect">Or create new nurse account</label>
-																												<a href="{{ route('admin.nurses.register') }}" class="btn btn-info">Create a nurse account</a>
+																												<a href="{{ route('admin.nurses.create') }}" class="btn btn-info">Create a nurse account</a>
 																								</div>
 
 																								<!-- ward-->

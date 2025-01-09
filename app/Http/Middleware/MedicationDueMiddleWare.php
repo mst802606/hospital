@@ -17,10 +17,18 @@ class MedicationDueMiddleWare
     public function handle(Request $request, Closure $next): Response
     {
 
+        // Check if the user role is 3 for a nurse
         if (auth()->user()->role == 3) {
-            MedicationPlan::checkDueMedications();
+            auth()->user()->notifications->markAsRead();
+            $mediaction_needed = MedicationPlan::checkDueMedications();
+            if ($mediaction_needed) {
+                session()->flash('error', 'Some patients require medications. Check your notifications');
+            }
 
         }
+
+        // Continue the request cycle
         return $next($request);
+
     }
 }

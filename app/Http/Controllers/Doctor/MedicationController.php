@@ -25,13 +25,20 @@ class MedicationController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($medication_plan_id)
     {
         // Fetch all medication plans for the dropdown
         $plans = MedicationPlan::all();
 
+        $medication_plans = MedicationPlan::all();
+
+        if ($medication_plan_id) {
+            $medication_plans = MedicationPlan::where('id', $medication_plan_id)->get();
+
+        }
+
         // Return the create view
-        return view('doctor.medications.create', compact('plans'));
+        return view('doctor.medications.create', compact('medication_plans'));
     }
 
     /**
@@ -40,9 +47,22 @@ class MedicationController extends Controller
     public function store(StoreMedicationRequest $request)
     {
         // Validate and create the medication
-        $result = Medication::create($request->all());
+        $result = Medication::create($request->except('medication_plan_id'));
 
-        // Redirect with success message
+        if (!$result) {
+            return back()->with('error', 'Medication could not be added.');
+        }
+
+        if ($request->medication_plan_id) {
+            $medicationPlan = MedicationPlan::find($request->medication_plan_id);
+
+            // dd($medicationPlan);
+            $result = $medicationPlan->medications()->syncWithoutDetaching([$result->id]);
+
+            return redirect()->route('doctor.medication_plans.show', ['medication_plan' => $medicationPlan])
+                ->with('success', 'Medication created successfully.');
+        }
+
         return redirect()->route('doctor.medications.index')
             ->with('success', 'Medication created successfully.');
     }

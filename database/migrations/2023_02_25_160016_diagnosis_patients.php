@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -13,11 +11,11 @@ return new class extends Migration
     {
         //
 
-        Schema::create('diagnosis_patients', function (Blueprint $table) {
-            $table->id();
-            $table->integer('diagnosis_id');
-            $table->integer('patient_id');
-        });
+        // Schema::create('diagnosis_patients', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->integer('diagnosis_id');
+        //     $table->integer('patient_id');
+        // });
     }
 
     /**
@@ -26,6 +24,6 @@ return new class extends Migration
     public function down(): void
     {
         //
-        Schema::dropIfExists('diagnosis_patients');
+        // Schema::dropIfExists('diagnosis_patients');
     }
 };

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('medication_medication_plans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('medication_id')->constrained('medication_plans');
-            $table->foreignId('medication_plan_id')->constrained('medication_plans');
+            $table->foreignId('medication_id')->rerefences('id')->on('medication_plans');
+            $table->foreignId('medication_plan_id')->rerefences('id')->on('medication_plans');
             $table->foreignId('nurse_id')->nullable()->rerefences('id')->on('nurses');
             $table->foreignId('doctor_id')->nullable()->rerefences('id')->on('doctors');
             $table->text('recommendation_notes')->nullable();

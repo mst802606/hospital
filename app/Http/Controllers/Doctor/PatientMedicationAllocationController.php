@@ -20,15 +20,26 @@ class PatientMedicationAllocationController extends Controller
 
         return view('doctor.allocations.create', compact('patients', 'plans'));
     }
+
+    public function placePatientOnMedicatonPlan($patient_id)
+    {
+
+        // Fetch all patients and medication plans
+        $patients = Patient::where('id', $patient_id)->with('user')->get();
+        $plans = MedicationPlan::all();
+
+        return view('doctor.allocations.create', compact('patients', 'plans'));
+    }
+
     public function store(Request $request)
     {
         // Validate the request data
         $validated = $request->validate([
-            'patient_id' => 'required|exists:patients,id',
-            'plan_id' => 'required|exists:medication_plans,id',
+            'patient_id' => ['required', 'exists:patients,id'],
+            'plan_id' => ['required', 'exists:medication_plans,id'],
             'recommendation_notes' => 'nullable|string',
-            "nurse_id" => ['sometimes', 'required|exists:nurses,id'],
-            "doctor_id" => ['sometimes', 'required|exists:doctors,id'],
+            "nurse_id" => ['sometimes', 'required', 'exists:nurses,id'],
+            "doctor_id" => ['sometimes', 'required', 'exists:doctors,id'],
         ]);
 
         // Create a new PatientMedicationPlan
@@ -46,7 +57,7 @@ class PatientMedicationAllocationController extends Controller
             return back()->with('error', "The patient could not be placed on this medicaton plan.");
         }
 
-        return redirect()->route('doctor.medication_plans.index')->with('success', 'Medication plan successfully allocated to the patient.');
+        return redirect()->route('doctor.medication_plans.show', ['medication_plan' => $validated['plan_id']])->with('success', 'Medication plan successfully allocated to the patient.');
 
     }
 

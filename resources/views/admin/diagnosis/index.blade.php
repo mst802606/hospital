@@ -3,8 +3,9 @@
 				<div class="container-fluid bg-light">
 								<section>
 												<!--diagnosis header-->
-												<div class="container-fluid mt-5">
-																<a href="" class="btn btn-warning m-2">Refresh</a>
+												<div class="container-fluid d-flex justify-content-between mt-5">
+																<a href="{{ route('admin.diagnoses.create') }}" class="btn btn-info m-2">Make a diagnosis</a>
+																<a href="" class="btn btn-warning m-2"><i class="fa fa-refresh"></i></a>
 												</div>
 												<!--diagnosis history-->
 												<section>
@@ -17,8 +18,6 @@
 																																				<tr>
 																																								<th scope="col">#</th>
 																																								<th scope="col">Doctor</th>
-																																								<th scope="col">Visit ID</th>
-																																								<th scope="col">Visit</th>
 																																								<th scope="col">Diagnosis Station</th>
 																																								<th scope="col">status</th>
 																																								<th scope="col">View</th>
@@ -29,12 +28,6 @@
 																																								<tr>
 																																												<th scope="row">{{ $diagnosis->id }}</th>
 																																												<td>{{ $diagnosis->doctor->user->username ?? 'N/A' }}</td>
-																																												<td>{{ $diagnosis->visit->id ?? 'N/A' }}</td>
-																																												<td>{{ $diagnosis->visit->appointment->title ?? 'N/A' }} <span
-																																																				class="text-info"><strong> on
-																																																								{{ $diagnosis->visit->created_at->format('d m
-																																																																																																																																																																								                                            Y') ?? 'N/A' }}</strong></span>
-																																												</td>
 																																												<td>{{ $diagnosis->disease ?? 'office' }}</td>
 																																												<td>
 																																																@if ($diagnosis->status)

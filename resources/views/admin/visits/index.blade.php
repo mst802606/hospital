@@ -49,7 +49,12 @@
 																																																												Pending </span>
 																																																				@endif
 																																																@empty
-																																																				<span class="badge badge-info">No diagniosis made</span>
+																																																				<a
+																																																								href="{{ route('admin.diagnoses.create-diagnoses', ['visit' => $visit->id]) }}"><span
+																																																												class="badge badge-danger">
+																																																												No diagniosis made
+																																																								</span>
+																																																				</a>
 																																																@endforelse
 
 																																												</td>
@@ -60,10 +65,12 @@
 																																																				<span class="badge badge-success">Closed</span>
 																																																@endif
 																																												</td>
-																																												<td><a
+																																												<td>
+																																																<a
 																																																				href="{{ route('admin.diagnoses.create-diagnoses', ['visit' => $visit->id]) }}"><span
 																																																								class="badge badge-dark"><i class="fa fa-file"></i> Make
-																																																								Diagnosis</span></a></td>
+																																																								Diagnosis</span></a>
+																																												</td>
 																																												<td><a href="{{ route('admin.visits.show', ['visit' => $visit->id]) }}"><i
 																																																								class="fa fa-eye"></i> View</a></td>
 																																								</tr>

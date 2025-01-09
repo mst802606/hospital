@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer("user_id")->nullable();
             $table->integer("doctor_id")->nullable();
             $table->integer("patient_id")->nullable();
+            $table->integer("nurse_id")->nullable();
             $table->string("title");
             $table->longText("message");
             $table->longText("replies")->nullable();;

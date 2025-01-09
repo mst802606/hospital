@@ -77,11 +77,11 @@
 																																								<a href="{{ route('login') }}"
 																																												class="btn btn-info text-sm text-gray-300 dark:text-gray-900 ">Login <i
 																																																class="fa-solid fa-right-to-bracket"></i></a>
-																																								@if (Route::has('register'))
+																																								{{--  @if (Route::has('register'))
 																																												<a href="{{ route('register') }}"
 																																																class="btn btn-primary ml-4 text-sm  text-gray-300 dark:text-gray-900 underline">Register
 																																																<i class="fa-regular fa-file"></i></a>
-																																								@endif
+																																								@endif  --}}
 																																				@endauth
 																																</div>
 																												@endif

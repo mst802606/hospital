@@ -92,10 +92,14 @@
 
 																																																				<div class="form-group">
 																																																								<label>Medication Time</label>
-																																																								<select name="dosage_time" class="form-control">
+																																																								@php
+																																																												$selected_dosage_time = 'amount_taken_noon'; // default value
+																																																								@endphp
+																																																								<select name="dosage_time" class="form-control"
+																																																												id="dosage_time_select">
 																																																												@foreach ($medication_amounts as $key => $medication_time)
 																																																																<option value="{{ $key }}"
-																																																																				{{ $key == 'morning' ? 'selected' : '' }}>
+																																																																				{{ $key == $selected_dosage_time ? 'selected' : '' }}>
 																																																																				{{ $medication_time }}
 																																																																</option>
 																																																												@endforeach
@@ -105,7 +109,8 @@
 																																																				<div class="form-group">
 																																																								<label>Dosage Amount</label>
 																																																								<input type="number" class="form-control" name="dosage_amount"
-																																																												value="{{ $medication->amount_taken_morning }}">
+																																																												id="dosage_amount"
+																																																												value="{{ $medication[$selected_dosage_time] }}">
 																																																				</div>
 																																																</div>
 																																																<div class="modal-footer">
@@ -129,4 +134,19 @@
 												<a href="{{ route('nurse.patients.index') }}" class="btn btn-secondary">Back to List</a>
 								</div>
 				</div>
+				<script>
+								// Event listener for the change event on the dosage_time dropdown
+								document.getElementById('dosage_time_select').addEventListener('change', function() {
+												var selectedDosageTime = this.value; // Get selected value (key)
+
+												// Update the dosage amount based on the selected dosage time
+												// Example: Assuming $medication is a PHP array where the key is the dosage time
+												var dosageAmount = @json($medication); // Converting PHP array to JavaScript object
+
+												// If the selected dosage time exists in the $medication array, update the input value
+												if (dosageAmount[selectedDosageTime]) {
+																document.getElementById('dosage_amount').value = dosageAmount[selectedDosageTime];
+												}
+								});
+				</script>
 @endsection

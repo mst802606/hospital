@@ -13,15 +13,7 @@
 																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
 																				href="{{ route('nurse.wards.index') }}">Wards</a>
 																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
-																				href="{{ route('nurse.appointments.index') }}">Appointments</a>
-																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
 																				href="{{ route('nurse.hospitals.index') }}">Hospital</a>
-																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
-																				href="{{ route('nurse.visits.index') }}">Visits</a>
-																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
-																				href="{{ route('nurse.diagnoses.index') }}">Diagnoses</a>
-																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
-																				href="{{ route('nurse.diagnoses.index') }}">Nurses</a>
 																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
 																				href="{{ route('nurse.medication_plans.index') }}">Medication Plans</a>
 																<a class="list-group-item list-group-item-action list-group-item-dark p-3"

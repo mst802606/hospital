@@ -9,7 +9,7 @@
 												<!--nurse form-->
 												<section class=" m-5" id="nurse-form">
 																<div class="row justify-content-center text-center">
-																				<p class="display-5"> Create a nurse account</p>
+																				<p class="display-5">Allocate wards to nurses</p>
 																</div>
 																<div class="row tile mt-3">
 																				<div class="row mx-auto justify-content-center">

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-class HomeController extends Controller
+class HomeController extends BaseController
 {
     /**
      * Create a new controller instance.
@@ -25,7 +25,8 @@ class HomeController extends Controller
         } else if (auth()->user()->role == 3) {
             return view('nurse.home');
         } else if (auth()->user()->role == 0 && auth()->user()->is_admin == true) {
-            return view('admin.home');
+            $hospital = $this->hospital();
+            return view('admin.home', compact('hospital'));
         } else {
             return back()->with('error', "The application cannot proceed because it cannot determine your role");
         }

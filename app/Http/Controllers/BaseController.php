@@ -42,7 +42,6 @@ class BaseController extends Controller
     public function admin()
     {
         $admin = User::where('role', 0)
-            ->with('accounts')
             ->first();
         return $admin;
     }

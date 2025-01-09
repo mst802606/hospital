@@ -19,11 +19,7 @@
 																																								<th scope="col"> UserId</th>
 																																								<th scope="col"> User Name</th>
 																																								<th scope="col"> Tag</th>
-																																								<th scope="col"> Department</th>
-																																								<th scope="col"> Role</th>
-																																								<th scope="col"> Office</th>
 																																								<th scope="col"> OfficeDays</th>
-																																								<th scope="col"> OfficeHours</th>
 																																								<th scope="col"> Available</th>
 																																								<th scope="col"> View</th>
 																																				</tr>
@@ -35,11 +31,7 @@
 																																												<td scope="col"> {{ $nurse->user_id }}</td>
 																																												<td scope="col"> {{ $nurse->user->username }}</td>
 																																												<td scope="col"> {{ $nurse->tag }}</td>
-																																												<td scope="col"> {{ $nurse->department }}</td>
-																																												<td scope="col"> {{ $nurse->role }}</td>
-																																												<td scope="col"> {{ $nurse->office }}</td>
 																																												<td scope="col"> {{ $nurse->office_days }}</td>
-																																												<td scope="col"> {{ $nurse->office_hours }}</td>
 																																												<td scope="col">
 																																																@if ($nurse->available)
 																																																				Available
@@ -57,6 +49,7 @@
 																				</div>
 																</div>
 												</section>
+
 								</section>
 				</div>
 @endsection

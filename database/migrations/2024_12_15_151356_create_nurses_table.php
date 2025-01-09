@@ -16,11 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('hospital_id')->default(1);
             $table->string('tag');
-            $table->string('department');
-            $table->string('role');
-            $table->string('office');
             $table->string('office_days');
-            $table->string('office_hours');
             $table->boolean('available')->default(true); // default to true
 
             $table->timestamps();

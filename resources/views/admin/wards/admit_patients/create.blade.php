@@ -35,11 +35,7 @@
 																												@enderror
 																								</div>
 
-																								{{--  <!-- Create new user-->
-																								<div class="form-group">
-																												<label for="createpatient">Or create new nurse account</label>
-																												<a href="{{ route('admin.nurses.register') }}" class="btn btn-info">Create a nurse account</a>
-																								</div>  --}}
+
 
 																								<!-- ward-->
 																								<div class="form-group">

@@ -2,19 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use App\Models\Nurse;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class NurseController extends Controller
+class NurseController extends BaseController
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('admin');
-    }
     /**
      * Display a listing of the resource.
      */
@@ -31,8 +26,9 @@ class NurseController extends Controller
      */
     public function create()
     {
-        $createdata['users'] = User::where('role', 3)->whereDoesntHave('nurse')->get();
-        return view('admin.nurses.create', compact('createdata'));
+        $users = User::where('role', 3)->whereDoesntHave('nurse')->get();
+        $wards = $this->hospital()->wards;
+        return view('admin.nurses.create', compact('users', 'wards'));
     }
 
     /**
@@ -43,12 +39,9 @@ class NurseController extends Controller
 
         request()->validate([
             "user_id" => "required",
-            "department" => "required",
-            "role" => "required",
-            "office" => "required",
             "office_days" => "required",
-            "office_hours" => "required",
             "available" => "required",
+            "ward" => "required|integer",
         ]);
 
         $hospital_id = 1;
@@ -59,10 +52,13 @@ class NurseController extends Controller
 
         $user = User::where('id', $request->user_id)->first();
 
-        $result = $user->nurse()->create($request->all());
-        if (!$result) {
+        $nurse = $user->nurse()->create($request->except('ward'));
+
+        if (!$nurse) {
             return back() > with('error', 'Could not create nurse account');
         }
+
+        $nurse->wards()->syncWithoutDetaching([$request->ward]);
 
         return redirect(route('admin.nurses.index'))->with('success', 'Account created successfully');
     }
@@ -75,8 +71,7 @@ class NurseController extends Controller
         //
 
         $nurse = Nurse::where('id', $id)->first();
-        $nursedata['nurse'] = $nurse;
-        return view('admin.nurses.show', compact('nursedata'));
+        return view('admin.nurses.show', compact('nurse'));
     }
 
     /**

@@ -18,25 +18,12 @@
 																								<div class="col-md col-xl p-5">
 																												<div class="d-flex justify-content-between">
 																																<div class="row mx-auto justify-content-center">
-																																				<div class="tile col-md-4 col-xl-4 m-3 item">
+																																				<div class="tile col-md col-xl m-3 item">
 																																								<div class="m-4 p-1">
 																																												<div class="item-title">
-																																																<p>Meet a doctor</p>
+																																																<p>Doctors</p>
 																																												</div>
-																																												<div class="item-body">
-																																																<p>Get the best medical treatment</p>
-																																												</div>
-																																								</div>
-																																				</div>
 
-																																				<div class="tile col-md-4 col-xl-4 m-3 item">
-																																								<div class="m-4 p-1">
-																																												<div class="item-title">
-																																																<p>Appointment</p>
-																																												</div>
-																																												<div class="item-body">
-																																																<p>Get a doctor at your timing</p>
-																																												</div>
 																																								</div>
 																																				</div>
 																																</div>
@@ -48,30 +35,17 @@
 																								style="background-image:url({{ url('images/doctor2.jpeg') }}); background-repeat: no-repeat;  background-size: cover;">
 																								<div class="col-md col-xl p-5">
 																												<div class="d-flex justify-content-between">
-																																{{--  <div class="row mx-auto justify-content-center">
-																																				<div class="tile col-md-4 col-xl-4 m-3 item">
+																																<div class="row mx-auto justify-content-center">
+																																				<div class="tile col-md col-x m-3 item">
 																																								<div class="m-4 p-3">
 																																												<div class="item-title">
-																																																<p>Contact Doctors</p>
+																																																<p>Nurses</p>
 																																												</div>
-																																												<div class="item-body">
-																																																<p>Message a doctor</p>
-																																												</div>
+
 																																								</div>
 																																				</div>
 
-																																				<div class="tile col-md-4 col-xl-4 m-3 item">
-																																								<div class="m-4 p-3">
-																																												<div class="item-title">
-																																																<p>Chats</p>
-																																												</div>
-																																												<div class="item-body">
-																																																<p>Get online support</p>
-																																												</div>
-																																								</div>
-																																				</div>
-
-																																</div>  --}}
+																																</div>
 																												</div>
 																								</div>
 																				</div>
@@ -80,28 +54,16 @@
 																								style="background-image:url({{ url('images/doctor3.jpeg') }}); background-repeat: no-repeat;  background-size: cover;">
 																								<div class="col-md col-xl p-5">
 																												<div class="d-flex justify-content-between">
-																																{{--  <div class="row mx-auto justify-content-center">
-																																				<div class="tile col-md-4 col-xl-4 m-3 item">
+																																<div class="row mx-auto justify-content-center">
+																																				<div class="tile col-md col-xl m-3 item">
 																																								<div class="m-4 p-3">
 																																												<div class="item-title">
-																																																<p>My profile</p>
-																																												</div>
-																																												<div class="item-body">
-																																																<p>Update my online profile</p>
+																																																<p>Medication Plans</p>
 																																												</div>
 																																								</div>
 																																				</div>
-																																				<div class="tile col-md-4 col-xl-4 m-3 item">
-																																								<div class="m-4 p-3">
-																																												<div class="item-title">
-																																																<p> Account</p>
-																																												</div>
-																																												<div class="item-body">
-																																																<p>My Account</p>
-																																												</div>
-																																								</div>
-																																				</div>
-																																</div>  --}}
+
+																																</div>
 																												</div>
 																								</div>
 																				</div>
@@ -143,63 +105,63 @@
 												<div class="row justify-content-center">
 																<div class=" col-md-6 col-xl-6 web">
 																				<div class="web">
-																								<p>With the assistance of cutting-edge technology, {{ config('app.name') }} is bringing reliable and
-																												instant online healthcare services</p>
+																								<p>With the assistance of technology, {{ config('app.name') }} is bringing reliable and
+																												digital hospital management service</p>
 																				</div>
 																</div>
 												</div>
-												<div class="col col-md-4 col-xl-3  m-3 tile item">
-																<div class="m-4 p-3">
-																				<div class="item-title">
-																								<label class="title">Appointments</label>
-																				</div>
-																				<div class="item-body">
-																								<p>Meet with our professional doctors to get your consultations and prescriptions
-																								</p>
-																				</div>
-																</div>
-												</div>
-
-												<div class="col col-md-4 col-xl-3 m-3 tile item">
-																<div class="m-4 p-3">
-																				<div class="item-title">
-																								<p>Medications</p>
-																				</div>
-																				<div class="item-body">
-																								<p>Get the best medical care for you to recover in peace and dignity</p>
-																				</div>
-																</div>
-												</div>
-
-												<div class="col col-md-4 col-xl-3 m-3 tile item">
-																<div class="m-4 p-3">
-																				<div class="item-title">
-																								<p>Nurses</p>
-																				</div>
-																				<div class="item-body">
-																								<p>You would be taken care of by our professional nurses upto your full recovery.
-																								</p>
-																				</div>
-																</div>
-												</div>
-
 												<div class="tile col col-md-4 col-xl-3 m-3 item">
 																<div class="m-4 p-3">
 																				<div class="item-title">
 																								<p>Healthcare</p>
 																				</div>
 																				<div class="item-body">
-																								<p>We ensure that the healthcare we provide is of the highest degree.</p>
+																								<p>This app helps to provide healthcare of the highest degree.</p>
 																				</div>
 																</div>
 												</div>
+												<div class="col col-md-4 col-xl-3 m-3 tile item">
+																<div class="m-4 p-3">
+																				<div class="item-title">
+																								<p>Doctors</p>
+																				</div>
+																				<div class="item-body">
+																								<p>Enable doctors to prescribe treatment to patients
+																								</p>
+																				</div>
+																</div>
+												</div>
+												<div class="col col-md-4 col-xl-3 m-3 tile item">
+																<div class="m-4 p-3">
+																				<div class="item-title">
+																								<p>Nurses</p>
+																				</div>
+																				<div class="item-body">
+																								<p>Allocate roles to nurses and manage accounts.
+																								</p>
+																				</div>
+																</div>
+												</div>
+												<div class="col col-md-4 col-xl-3 m-3 tile item">
+																<div class="m-4 p-3">
+																				<div class="item-title">
+																								<p>Medications</p>
+																				</div>
+																				<div class="item-body">
+																								<p>Manage medication plans and medications given to the patients</p>
+																				</div>
+																</div>
+												</div>
+
+
+
 												<div class="tile col col-md-4 col-xl-3 m-3 item">
 																<div class="m-4 p-3">
 																				<div class="item-title">
 																								<p>History</p>
 																				</div>
 																				<div class="item-body">
-																								<p>Manage your health and medical records in a safe secure environment </p>
+																								<p>Manage health and medical records in a safe secure environment </p>
 																				</div>
 																</div>
 												</div>
@@ -220,11 +182,10 @@
 																				<h2>Our Objective</h2>
 																				<br>
 																				<p>
-																								Our main objective is to ensure quality healthcare is accessible to you, which is simple,
-																								transparent and available anytime/anywhere
+																								Our main objective is to ensure quality healthcare management service that is easy and intuitive to
+																								the user.
 																				</p>
-																				<strong> {{ config('app.name') }}</strong> is an Online Doctor Consultation Platform where one
-																				can consult a doctor via Web/App.
+																				<strong> {{ config('app.name') }}</strong> is an Online Hospital Management App.
 																				<br>
 																				<br>
 																				<!--philosophy-->
@@ -232,18 +193,14 @@
 																				<br>
 																				<p>
 																								Health matters! <strong>{{ config('app.name') }}</strong> is built on the philosophy that people
-																								should live a happier, healthier and more productive life. Everyone is entitled to qualitative
-																								medical care. It should be accessible, affordable and available at all times. Our endeavor is to
-																								provide innovative solutions which are user-friendly and simplify lives.
-																				</p>
-																				<!--Our Beliefs-->
+																								should live a happier, healthier and more productive life.
+																								<!--Our Beliefs-->
 																				<h2>Our Beliefs</h2>
 																				<br>
 																				<p>
-																								Our beliefs extend to mutual respect, gender equity, work place transparency and openness to
-																								disruptive and sustainable solutions that will help achieve the organization’s goals and individual
-																								growth. We are simple, honest, highly approachable and healthcare services that are within
-																								everyone’s reach.
+																								Our beliefs extend to mutual respect, gender equity, work place transparency and openness, data
+																								privacy and strong and positive user experience that would make your day to day activities seemless
+																								and enjoyable.
 																				</p>
 																</div>
 												</div>

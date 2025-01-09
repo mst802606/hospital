@@ -56,7 +56,7 @@
 																				<div class="pl-1">
 																								<h3><strong><a class="text-warning"
 																																				href="{{ route('welcome') }}">{{ config('app.name') }}</a></strong></h3>
-																								<h6><small>Your online doctor</small></h6>
+																								<h6><small>Hospital management system.</small></h6>
 																				</div>
 																</a>
 																<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -179,9 +179,9 @@
 																								<hr class="mb-4 mt-0 d-inline-block mx-auto"
 																												style="width: 60px; background-color: #7c4dff; height: 2px" />
 																								<p>
-																												{{ config('app.name') }} is a digital application that helps to conect patients to their
-																												personal doctors with ease and efficiency without them leaving for the hospital unless
-																												required. It makes the booking of appointments easier asn seemless for the patient
+																												{{ config('app.name') }} is a digital application that helps to manage hospital mediactions
+																												with ease and efficiency.It helps reduce the error propagation from doctors to nurses when
+																												administering medications.
 																								</p>
 																				</div>
 																				<!-- Grid column -->
@@ -196,16 +196,16 @@
 																												<a href="#!">Journal Posting</a>
 																								</p>
 																								<p>
-																												<a href="#!">Mertanity</a>
+																												<a href="#!">Nurses</a>
 																								</p>
 																								<p>
-																												<a href="#!">consultancy</a>
+																												<a href="#!">Doctors</a>
 																								</p>
 																								<p>
-																												<a href="#!">Treatment and consultancy</a>
+																												<a href="#!">Medication Plans</a>
 																								</p>
 																								<p>
-																												<a href="#!">Ambulances </a>
+																												<a href="#!">Patients </a>
 																								</p>
 																				</div>
 																				<!-- Grid column -->
@@ -217,6 +217,10 @@
 
 																								<p>
 																												<a href="{{ route('welcome') }}">Welcome</a>
+																								</p>
+
+																								<p>
+																												<a href="{{ route('login') }}">User login</a>
 																								</p>
 																				</div>
 																				<!-- Grid column -->

@@ -26,9 +26,7 @@ class NurseController extends BaseController
      */
     public function create()
     {
-        $users = User::where('role', 3)->whereDoesntHave('nurse')->get();
-        $wards = $this->hospital()->wards;
-        return view('admin.nurses.create', compact('users', 'wards'));
+        return redirect(route('admin.nurses.register'));
     }
 
     /**

@@ -23,7 +23,7 @@
 																<p><strong>Reason:</strong> {{ $medication->reason }}</p>
 												</div>
 												<div class="card-footer">
-																<a href="{{ route('nurse.medications.edit', $medication) }}" class="btn btn-warning">Edit</a>
+																{{--  <a href="{{ route('nurse.medications.edit', $medication) }}" class="btn btn-warning">Edit</a>  --}}
 																<a href="{{ route('nurse.medications.index') }}" class="btn btn-secondary">Back to List</a>
 												</div>
 								</div>

@@ -120,6 +120,8 @@ class MedicationPlan extends Model
                     $mediaction_needed = true;
                     Nurse::notifyNursesOnMedication($patient, "Night medication needed");
                 }
+
+                Nurse::notifyNursesOnMedication($patient);
             }
         }
 

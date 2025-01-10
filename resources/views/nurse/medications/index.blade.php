@@ -3,7 +3,7 @@
 @section('page')
 				<div class="container mt-5">
 								<h1 class="mb-4">Medications</h1>
-								<a href="{{ route('doctor.medications.create') }}" class="btn btn-primary mb-3">Add Medication</a>
+								{{--  <a href="{{ route('doctor.medications.create') }}" class="btn btn-primary mb-3">Add Medication</a>  --}}
 								<div class="table-responsive">
 												<table class="table table-striped table-hover">
 																<thead>
@@ -43,10 +43,10 @@
 																												<td>{{ $medication->notes }}</td>
 																												<td>{{ $medication->reason }}</td>
 																												<td>
-																																<a href="{{ route('doctor.medications.show', $medication) }}"
+																																<a href="{{ route('nurse.medications.show', $medication) }}"
 																																				class="btn btn-info btn-sm">View</a>
-																																<a href="{{ route('doctor.medications.edit', $medication) }}"
-																																				class="btn btn-warning btn-sm">Edit</a>
+																																{{--  <a href="{{ route('doctor.medications.edit', $medication) }}"
+																																				class="btn btn-warning btn-sm">Edit</a>  --}}
 																												</td>
 																								</tr>
 																				@endforeach

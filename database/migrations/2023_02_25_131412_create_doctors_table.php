@@ -16,9 +16,6 @@ return new class extends Migration
             $table->integer('user_id');
             $table->integer('hospital_id')->default(1);
             $table->string('tag');
-            $table->string('department');
-            $table->string('role');
-            $table->string('office');
             $table->string('office_days');
             $table->string('office_hours');
             $table->boolean('available')->default(true);

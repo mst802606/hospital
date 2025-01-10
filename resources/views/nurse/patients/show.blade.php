@@ -7,6 +7,9 @@
 								<div class="card">
 												<div class="card-header">
 																<h5>Patient Information</h5>
+
+																<a class="btn btn-outline-info rounded float-right"
+																				href="/nurse/offer-medication/show/{{ $patient->id }}">Offer mediation</a>
 												</div>
 												<div class="card-body">
 																<p><strong>Patient ID:</strong> {{ $patient->id }}</p>
@@ -45,8 +48,8 @@
 																																								<td>
 																																												<a href="{{ route('nurse.medication_plans.show', $plan) }}"
 																																																class="btn btn-info btn-sm">View</a>
-																																												<a href="{{ route('nurse.medication_plans.edit', $plan) }}"
-																																																class="btn btn-warning btn-sm">Edit</a>
+																																												{{--  <a href="{{ route('nurse.medication_plans.edit', $plan) }}"
+																																																class="btn btn-warning btn-sm">Edit</a>  --}}
 																																								</td>
 																																				</tr>
 																																@endforeach

@@ -33,8 +33,8 @@
 																																<td>
 																																				<a href="{{ route('nurse.patients.show', $patient->id) }}"
 																																								class="btn btn-primary btn-sm">View</a>
-																																				<a href="{{ route('nurse.patients.edit', $patient->id) }}"
-																																								class="btn btn-warning btn-sm">Edit</a>
+																																				{{--  <a href="{{ route('nurse.patients.edit', $patient->id) }}"
+																																								class="btn btn-warning btn-sm">Edit</a>  --}}
 																																				{{--  <form action="{{ route('nurse.patients.destroy', $patient->id) }}" method="POST"
 																																								style="display:inline;">
 																																								@csrf

@@ -1,13 +1,10 @@
-@extends('layouts.login')
-@section('content')
+@extends('layouts.admin')
+@section('page')
 				<section class="material-half-bg">
 								<div class="cover"></div>
 				</section>
 				<section class="login-content ">
 								@include('inc.messages')
-								<div class="logo">
-												<h1><strong>Welcome to {{ env('APP_NAME') }}</strong></h1>
-								</div>
 								<!--register box -->
 								<div class="register-box p-3 m-2">
 												<!--user register form-->
@@ -71,6 +68,55 @@
 																								</span>
 																				@enderror
 																</div>
+																<!--office days-->
+																<div class="form-group">
+																				<label for="doctorselect">Doctor</label>
+																				<select class="form-control form-control @error('office_days') is-invalid @enderror" id="doctorselect"
+																								name="office_days" required>
+																								<option value="8:00 am to 5:30 pm">Monday to Sarturday 8:00 am to 5:30 pm
+																								</option>
+																				</select>
+
+																				@error('office_days')
+																								<span class="invalid-feedback" role="alert">
+																												<strong>{{ $message }}</strong>
+																								</span>
+																				@enderror
+																</div>
+
+																<!--office hours-->
+																<div class="form-group">
+																				<label for="office_hours">office_hours </label>
+																				<select class="form-control form-control @error('office_hours') is-invalid @enderror" id="doctorselect"
+																								name="office_hours" required>
+																								<option value="8:00 am to 5:30 pm">Day 8:00 am to 5:30 pm
+																								</option>
+																								<option value="5:00 pm to 8:00 pm">Night 5:00 pm to 8:00 pm
+																								</option>
+																				</select>
+																				@error('office_hours')
+																								<span class="invalid-feedback" role="alert">
+																												<strong>{{ $message }}</strong>
+																								</span>
+																				@enderror
+																</div>
+																{{--  availability  --}}
+																<div class="form-group">
+																				<label for="available">Availability</label>
+																				<select class="form-control form-control @error('available') is-invalid @enderror" id="available"
+																								name="available" required>
+																								<option value="1">Available
+																								</option>
+																								<option value="0">Not Available
+																								</option>
+																				</select>
+
+																				@error('available')
+																								<span class="invalid-feedback" role="alert">
+																												<strong>{{ $message }}</strong>
+																								</span>
+																				@enderror
+																</div>
 																<div class="form-outline mb-2">
 																				<div class="row">
 																								<div class="col-xl col-md-6 col-sm">
@@ -111,8 +157,8 @@
 																</div>
 
 																<div class="form-check d-none">
-																				<input class="form-check-input me-2 @error('terms_and_conditions') is-invalid @enderror" type="checkbox"
-																								value="Accepted" name="terms_and_conditions" checked />
+																				<input class="form-check-input me-2 @error('terms_and_conditions') is-invalid @enderror"
+																								type="checkbox" value="Accepted" name="terms_and_conditions" checked />
 																				<label class="form-check-label mt-1" for="form2Example3g">
 																								I agree all statements in <a href="/terms_and_conditions" class="text-body"><u>Terms of
 																																service</u></a>

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
-use App\Http\Controllers\Controller;
 use App\Models\Doctor;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -32,41 +31,12 @@ class DoctorController extends BaseController
      */
     public function create()
     {
-        $createdata['users'] = User::where('role', 2)->whereDoesntHave('doctor')->get();
-        return view('admin.doctor.create', compact('createdata'));
+        return redirect(route('admin.doctors.register'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-
-        request()->validate([
-            "user_id" => "required",
-            "department" => "required",
-            "role" => "required",
-            "office" => "required",
-            "office_days" => "required",
-            "office_hours" => "required",
-            "available" => "required",
-        ]);
-
-
-        $hospital_id = 1;
-        $tag = rand(57777, 888888);
-
-        $request['hospital_id'] = $hospital_id;
-        $request['tag']  = $tag;
-
-        $user = User::where('id', $request->user_id)->first();
-
-        $result =  $user->doctor()->create($request->all());
-        if (!$result)
-            return back() > with('error', 'Could not create doctor account');
-
-        return redirect(route('admin.doctors.index'))->with('success', 'Account created successfully');
-    }
 
     /**
      * Display the specified resource.
@@ -105,9 +75,10 @@ class DoctorController extends BaseController
 
         $doctor = Doctor::where('id', $id)->with('user')->first();
 
-        $result =  $doctor->update($request->all());
-        if (!$result)
+        $result = $doctor->update($request->all());
+        if (!$result) {
             return back()->with('error', 'Could not create doctor account');
+        }
 
         return redirect(route('admin.doctors.show', ['doctor' => $id]))->with('success', 'Update success');
     }
@@ -118,9 +89,10 @@ class DoctorController extends BaseController
     public function destroy(string $id)
     {
         //
-        $result =   Doctor::destroy($id);
-        if (!$result)
+        $result = Doctor::destroy($id);
+        if (!$result) {
             return back()->with('error', 'Could not delete doctor account');
+        }
 
         return redirect(route('admin.doctors.index'))->with('success', 'Deletion success');
     }

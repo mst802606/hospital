@@ -77,7 +77,37 @@ class NurseRegisterController extends BaseController
 
         $user = User::where('email', $user->email)->first();
 
-        return redirect(route('admin.nurses.create'));
+        $nurse = $this->createNurse($request, $user);
+
+        if (!$nurse) {
+            return back()->with('error', "Nurse account could not be registerd");
+        }
+
+        return redirect(route('admin.nurses.index'));
+    }
+
+    public function createNurse($request, User $user)
+    {
+
+        $hospital_id = 1;
+        $tag = rand(57777, 888888);
+
+        $request['hospital_id'] = $hospital_id;
+        $request['tag'] = $tag;
+
+        $result = $user->nurse()->create(
+            ["office_days" => $request['office_days'],
+                "office_hours" => $request['office_hours'],
+                "available" => $request['available'],
+                "tag" => $request['tag'],
+                "hospital_id" => $request['hospital_id'],
+            ]
+        );
+        if (!$result) {
+            return false;
+        }
+
+        return $result;
     }
 
 }

@@ -2,19 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\CountriesList;
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
-use App\Models\Doctor;
 use App\Models\User;
-use App\Profiles\profiles;
 use App\Providers\RouteServiceProvider;
-use App\Repositories\AppRepository;
-use Exception;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class DoctorRegisterController extends BaseController
@@ -62,6 +56,9 @@ class DoctorRegisterController extends BaseController
             'phoneno' => 'required',
             'terms_and_conditions' => 'required',
             'role' => 'required',
+            "office_days" => "required",
+            "office_hours" => "required",
+            "available" => "required",
         ]);
 
         $user = User::firstOrCreate(
@@ -77,12 +74,44 @@ class DoctorRegisterController extends BaseController
             ]
         );
 
-        if (!$user)
+        if (!$user) {
             return back()->with('error', "Registration Failed!!");
+        }
 
         $user = User::where('email', $user->email)->first();
 
-        return redirect(route('admin.doctors.create'));
+        $doctor = $this->createDoctor($request, $user);
+
+        if (!$doctor) {
+            return back()->with('error', "Nurse account could not be registerd");
+        }
+
+        return redirect(route('admin.doctors.index'));
+    }
+
+    public function createDoctor($request, User $user)
+    {
+
+        $hospital_id = 1;
+        $tag = rand(57777, 888888);
+
+        $request['hospital_id'] = $hospital_id;
+        $request['tag'] = $tag;
+
+        $result = $user->doctor()->create(
+            ["office_days" => $request['office_days'],
+                "office_hours" => $request['office_hours'],
+                "available" => $request['available'],
+                "tag" => $request['tag'],
+                "hospital_id" => $request['hospital_id'],
+
+            ]
+        );
+        if (!$result) {
+            return false;
+        }
+
+        return $result;
     }
 
 }

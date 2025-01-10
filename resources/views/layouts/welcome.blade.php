@@ -56,7 +56,7 @@
 																				<div class="pl-1">
 																								<h3><strong><a class="text-warning"
 																																				href="{{ route('welcome') }}">{{ config('app.name') }}</a></strong></h3>
-																								<h6><small>Hospital management system.</small></h6>
+																								<h6><small>We care.</small></h6>
 																				</div>
 																</a>
 																<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -182,45 +182,6 @@
 																												{{ config('app.name') }} is a digital application that helps to manage hospital mediactions
 																												with ease and efficiency.It helps reduce the error propagation from doctors to nurses when
 																												administering medications.
-																								</p>
-																				</div>
-																				<!-- Grid column -->
-
-																				<!-- Grid column -->
-																				<div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-																								<!-- Links -->
-																								<h6 class="text-uppercase fw-bold">Products</h6>
-																								<hr class="mb-4 mt-0 d-inline-block mx-auto"
-																												style="width: 60px; background-color: #7c4dff; height: 2px" />
-																								<p>
-																												<a href="#!">Journal Posting</a>
-																								</p>
-																								<p>
-																												<a href="#!">Nurses</a>
-																								</p>
-																								<p>
-																												<a href="#!">Doctors</a>
-																								</p>
-																								<p>
-																												<a href="#!">Medication Plans</a>
-																								</p>
-																								<p>
-																												<a href="#!">Patients </a>
-																								</p>
-																				</div>
-																				<!-- Grid column -->
-																				<div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-																								<!-- Links -->
-																								<h6 class="text-uppercase fw-bold">Useful links</h6>
-																								<hr class="mb-4 mt-0 d-inline-block mx-auto"
-																												style="width: 60px; background-color: #7c4dff; height: 2px" />
-
-																								<p>
-																												<a href="{{ route('welcome') }}">Welcome</a>
-																								</p>
-
-																								<p>
-																												<a href="{{ route('login') }}">User login</a>
 																								</p>
 																				</div>
 																				<!-- Grid column -->

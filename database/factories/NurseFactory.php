@@ -24,6 +24,7 @@ class NurseFactory extends Factory
             "hospital_id" => 1,
             'tag' => $this->faker->imei(),
             'office_days' => $this->faker->dayOfWeek(now()),
+            'office_hours' => rand(8, 21),
             'available' => true,
         ];
     }

@@ -7,9 +7,11 @@
 								<div class="card">
 												<div class="card-header">
 																<h5>Patient Information</h5>
+																@if (count($patient->medicationPlans) > 0)
+																				<a class="btn btn-outline-info rounded float-right"
+																								href="/nurse/offer-medication/show/{{ $patient->id }}">Offer mediation</a>
+																@endif
 
-																<a class="btn btn-outline-info rounded float-right"
-																				href="/nurse/offer-medication/show/{{ $patient->id }}">Offer mediation</a>
 												</div>
 												<div class="card-body">
 																<p><strong>Patient ID:</strong> {{ $patient->id }}</p>

@@ -18,6 +18,7 @@
 																												<th>Ward</th>
 																												<th>Admitted</th>
 																												<th>Status</th>
+																												<th>Medication</th>
 																												<th>Actions</th>
 																								</tr>
 																				</thead>
@@ -30,6 +31,14 @@
 																																<td>{{ $patient->ward->name ?? 'N/A' }}</td>
 																																<td>{{ $patient->admitted ? 'Yes' : 'No' }}</td>
 																																<td>{{ $patient->status ? 'Active' : 'Inactive' }}</td>
+																																<td>
+																																				@if (count($patient->medicationPlans) > 0)
+																																								<a class="btn btn-outline-info rounded"
+																																												href="/nurse/offer-medication/show/{{ $patient->id }}">Offer mediation</a>
+																																				@else
+																																								N/A
+																																				@endif
+																																</td>
 																																<td>
 																																				<a href="{{ route('nurse.patients.show', $patient->id) }}"
 																																								class="btn btn-primary btn-sm">View</a>

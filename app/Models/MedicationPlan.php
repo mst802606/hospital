@@ -48,12 +48,12 @@ class MedicationPlan extends Model
                     $pivot = $medication->pivot;
 
                     // Morning medication (6 AM - 9 AM)
+
                     if ($medication->amount_taken_morning > 0 && !$pivot->amount_taken_morning &&
                         $now->between(Carbon::today(env('timezone'))->setTime(6, 30), Carbon::today(env('timezone'))->setTime(9, 30))
                     ) {
                         $mediaction_needed = true;
                         Nurse::notifyNursesOnMedication($patient, "Morning medication needed");
-
                     }
 
                     // Noon medication (12 PM - 1 PM)
@@ -84,8 +84,9 @@ class MedicationPlan extends Model
                     }
                 }
             } else {
-                $mediaction_needed = true;
+                $mediaction_needed = false;
 
+                // dd($now);
                 if (
                     $now->between(Carbon::today(env('timezone'))->setTime(6, 30), Carbon::today(env('timezone'))->setTime(9, 30))
                 ) {
@@ -121,7 +122,7 @@ class MedicationPlan extends Model
                     Nurse::notifyNursesOnMedication($patient, "Night medication needed");
                 }
 
-                Nurse::notifyNursesOnMedication($patient);
+                // Nurse::notifyNursesOnMedication($patient);
             }
         }
 

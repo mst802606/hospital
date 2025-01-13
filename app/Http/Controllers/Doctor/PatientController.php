@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Doctor;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
+use App\Models\Patient;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class PatientController extends Controller
+class PatientController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -16,6 +17,12 @@ class PatientController extends Controller
     public function index()
     {
         //
+
+        // $ward_ids = $this->nurse()->wards()->pluck('wards.id');
+
+        $patients = Patient::all();
+        return view('doctor.patients.index', compact('patients'));
+
     }
 
     /**
@@ -25,7 +32,7 @@ class PatientController extends Controller
     {
         //
 
-        return view('admin.patients.create');
+        return view('doctor.patients.create');
     }
 
     /**
@@ -70,7 +77,7 @@ class PatientController extends Controller
             return back()->with('error', "Failed to create associated accounts");
         }
 
-        return $user;
+        return redirect(route('doctor.patients.index'));
     }
 
     /**
@@ -79,22 +86,40 @@ class PatientController extends Controller
     public function show(string $id)
     {
         //
+
+        $patient = Patient::where('id', $id)->first();
+        return view('doctor.patients.show', compact('patient'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $patient = Patient::findOrFail($id);
+        return view('doctor.patients.edit', compact('patient'));
     }
-
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $patient = Patient::findOrFail($id);
+
+        // Validate the incoming request
+        $validatedData = $request->validate([
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'email' => 'required|email|unique:patients,email,' . $patient->id,
+            'phoneno' => 'required|numeric|digits:10',
+            'password' => 'nullable|string|min:8|confirmed',
+        ]);
+
+        // Update patient data
+        $patient->update($validatedData);
+
+        // Redirect back with success message
+        return redirect()->route('doctor.patients.index')->with('success', 'Patient information updated successfully');
     }
 
     /**

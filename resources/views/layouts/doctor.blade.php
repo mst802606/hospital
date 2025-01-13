@@ -11,6 +11,8 @@
 																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
 																				href="{{ route('doctor.hospitals.index') }}">Hospital</a>
 																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
+																				href="{{ route('doctor.patients.index') }}">Patients</a>
+																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
 																				href="{{ route('doctor.diagnoses.index') }}">Diagnoses</a>
 																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
 																				href="{{ route('doctor.medication_plans.index') }}">Medication Plans</a>

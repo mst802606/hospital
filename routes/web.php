@@ -21,6 +21,7 @@ use App\Http\Controllers\Doctor\HospitalController;
 use App\Http\Controllers\Doctor\MedicationController as DoctorMedicationController;
 use App\Http\Controllers\Doctor\MedicationPlanController as DoctorMedicationPlanController;
 use App\Http\Controllers\Doctor\MessageController;
+use App\Http\Controllers\Doctor\PatientController as DoctorPatientController;
 use App\Http\Controllers\Doctor\PatientMedicationAllocationController as DoctorPatientMedicationAllocationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Hospital\DonationController as HospitalDonationController;
@@ -62,7 +63,12 @@ Auth::routes();
 
 Route::get('/notifications/{notification}', [NotificationController::class, 'show'])->name('notifications.show');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware(['auth'])->group(
+    function () {
+        Route::get('/home', [HomeController::class, 'index'])->name('home');
+    }
+);
+
 Route::prefix('/doctor')->name('doctor.')->middleware(['auth', 'doctor'])->group(
     function () {
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -75,6 +81,9 @@ Route::prefix('/doctor')->name('doctor.')->middleware(['auth', 'doctor'])->group
 
         //messages
         Route::resource('messages', MessageController::class);
+
+        //messages
+        Route::resource('patients', DoctorPatientController::class);
 
         //nurses
         // Route::resource('nurses', DoctorNurseController::class);

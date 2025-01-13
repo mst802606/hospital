@@ -22,28 +22,17 @@
 																<div class="form-outline mb-2">
 																				<div class="row">
 																								<div class="col-md-6 col-xl">
-																												<label class="form-label" for="firstname">First Name</label>
-																												<input type="text" id="user-firstname"
-																																class="form-control form-control-lg @error('firstname') is-invalid @enderror"
-																																name="firstname" value="{{ old('firstname', $patient->firstname) }}" required
-																																autocomplete="firstname" autofocus />
-																												@error('firstname')
+																												<label class="form-label" for="username">First Name</label>
+																												<input type="text" id="username"
+																																class="form-control form-control-lg @error('username') is-invalid @enderror" name="username"
+																																value="{{ $patient->user->username }}" required autocomplete="username" autofocus />
+																												@error('username')
 																																<span class="invalid-feedback" role="alert">
 																																				<strong>{{ $message }}</strong>
 																																</span>
 																												@enderror
 																								</div>
-																								<div class="col-md-6 col-xl">
-																												<label class="form-label" for="lastname">Last Name</label>
-																												<input type="text" id="user-lastname"
-																																class="form-control form-control-lg @error('lastname') is-invalid @enderror" name="lastname"
-																																value="{{ old('lastname', $patient->lastname) }}" required autocomplete="lastname" />
-																												@error('lastname')
-																																<span class="invalid-feedback" role="alert">
-																																				<strong>{{ $message }}</strong>
-																																</span>
-																												@enderror
-																								</div>
+
 																				</div>
 																</div>
 
@@ -51,7 +40,7 @@
 																				<label class="form-label" for="email">Email</label>
 																				<input type="email" id="user-email"
 																								class="form-control form-control-lg @error('email') is-invalid @enderror" name="email"
-																								value="{{ old('email', $patient->email) }}" required autocomplete="email" />
+																								value="{{ old('email', $patient->user->email) }}" required autocomplete="email" />
 																				@error('email')
 																								<span class="invalid-feedback" role="alert">
 																												<strong>{{ $message }}</strong>
@@ -63,7 +52,8 @@
 																				<label class="form-label" for="phoneno">Phone Number</label>
 																				<input type="text" id="user-phoneno"
 																								class="form-control form-control-lg @error('phoneno') is-invalid @enderror" name="phoneno"
-																								value="{{ old('phoneno', $patient->phoneno) }}" required autocomplete="phoneno" maxlength="10" />
+																								value="{{ old('phoneno', $patient->user->phoneno) }}" required autocomplete="phoneno"
+																								maxlength="10" />
 																				@error('phoneno')
 																								<span class="invalid-feedback" role="alert">
 																												<strong>{{ $message }}</strong>

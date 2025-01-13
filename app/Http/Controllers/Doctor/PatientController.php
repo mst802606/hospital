@@ -108,15 +108,19 @@ class PatientController extends BaseController
 
         // Validate the incoming request
         $validatedData = $request->validate([
-            'firstname' => 'required|string|max:255',
-            'lastname' => 'required|string|max:255',
-            'email' => 'required|email|unique:patients,email,' . $patient->id,
+            'username' => 'required|string|max:255',
+            'email' => 'required|email',
             'phoneno' => 'required|numeric|digits:10',
-            'password' => 'nullable|string|min:8|confirmed',
         ]);
 
         // Update patient data
-        $patient->update($validatedData);
+        $patient->user->update(
+            ["username" => $request->username,
+                "email" => $request->email,
+                "phoneno" => $request->phoneno,
+                "password" => $request->password ? Hash::make($request->password) : $patient->user->password,
+            ]
+        );
 
         // Redirect back with success message
         return redirect()->route('doctor.patients.index')->with('success', 'Patient information updated successfully');
@@ -128,6 +132,13 @@ class PatientController extends BaseController
     public function destroy(string $id)
     {
         //
+
+        $patient = Patient::where('id', $id)->first();
+        $user = $patient->first();
+        Patient::destroy($id);
+
+        User::destroy($user->id);
+        return redirect()->route('doctor.patients.index')->with('success', 'Patient information updated successfully');
     }
 
     public function createUserAccounts(User $user)

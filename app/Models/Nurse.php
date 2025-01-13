@@ -67,4 +67,10 @@ class Nurse extends Model
         }
     }
 
+    public function notes()
+    {
+        # code...
+        return $this->morphMany(Note::class, 'notable');
+    }
+
 }

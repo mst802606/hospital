@@ -26,4 +26,9 @@ class Ward extends Model
         return $this->belongsToMany(Nurse::class, 'nurses_wards');
     }
 
+    public function notes()
+    {
+        return $this->hasMany(Note::class, 'ward_id');
+    }
+
 }

@@ -31,6 +31,7 @@ use App\Http\Controllers\Nurse\HospitalController as NurseHospitalController;
 use App\Http\Controllers\Nurse\MedicationController as NurseMedicationController;
 use App\Http\Controllers\Nurse\MedicationPlanController as NurseMedicationPlanController;
 use App\Http\Controllers\Nurse\MessageController as NurseMessageController;
+use App\Http\Controllers\Nurse\NoteController;
 use App\Http\Controllers\Nurse\OfferPatientMedication;
 use App\Http\Controllers\Nurse\PatientController as NursePatientController;
 use App\Http\Controllers\Nurse\WardController;
@@ -112,6 +113,9 @@ Route::prefix('/nurse')->name('nurse.')->middleware(['auth', 'nurse', 'medicatio
 
         //wards
         Route::resource('wards', WardController::class);
+
+        //notes
+        Route::resource('notes', NoteController::class);
 
         //Hospitals
         Route::resource('hospitals', NurseHospitalController::class);

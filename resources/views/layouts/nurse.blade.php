@@ -18,6 +18,9 @@
 																				href="{{ route('nurse.medication_plans.index') }}">Medication Plans</a>
 																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
 																				href="{{ route('nurse.medications.index') }}">Medication</a>
+																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
+																				href="{{ route('nurse.notes.index') }}">Notes</a>
+
 												</div>
 								</div>
 								<!-- Page content wrapper-->

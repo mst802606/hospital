@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('nurse_id')->nullable()->rerefences('id')->on('nurses');
             $table->foreignId('doctor_id')->nullable()->rerefences('id')->on('doctors');
             $table->text('recommendation_notes')->nullable();
-            $table->enum('status', ['pending', 'active', 'completed']);
+            $table->enum('status', ['pending', 'active', 'completed'])->default('active');
             $table->timestamps();
         });
     }

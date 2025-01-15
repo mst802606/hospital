@@ -57,7 +57,9 @@ class MedicationController extends Controller
             $medicationPlan = MedicationPlan::find($request->medication_plan_id);
 
             // dd($medicationPlan);
-            $result = $medicationPlan->medications()->syncWithoutDetaching([$result->id]);
+            $result = $medicationPlan->medications()->syncWithoutDetaching([$result->id =>
+            ["status"=> "active"]]);
+
 
             return redirect()->route('doctor.medication_plans.show', ['medication_plan' => $medicationPlan])
                 ->with('success', 'Medication created successfully.');

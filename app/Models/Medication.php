@@ -13,7 +13,13 @@ class Medication extends Model
 
     public function medicationPlans()
     {
-        return $this->belongsToMany(MedicationPlan::class, 'medication_medication_plans');
+        return $this->belongsToMany(MedicationPlan::class, 'medication_medication_plans')
+        ->withPivot(
+            "nurse_id",
+"doctor_id",
+"recommendation_notes",
+"status",
+        );
     }
 
     public function patients()

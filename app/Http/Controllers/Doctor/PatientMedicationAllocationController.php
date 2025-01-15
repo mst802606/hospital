@@ -46,12 +46,13 @@ class PatientMedicationAllocationController extends Controller
 
         $patient = Patient::where('id', $validated['patient_id'])->first();
 
-        $result = $patient->medicationPlans()->syncWithoutDetaching($validated['plan_id'], [
+        $result = $patient->medicationPlans()->syncWithoutDetaching([$validated['plan_id'] =>
+        [
             'nurse_id' => $request->nurse_id,
             "doctor_id" => $request->doctor_id,
             'recommendation_notes' => $validated['recommendation_notes'],
             'status' => 'active',
-        ]);
+        ]]);
 
         if (!$result) {
             return back()->with('error', "The patient could not be placed on this medicaton plan.");

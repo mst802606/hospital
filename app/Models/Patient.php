@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -59,6 +58,11 @@ class Patient extends Model
     public function nurses()
     {
         return $this->belongsToMany(Nurse::class, 'nurse_patient');
+    }
+
+    public function notes()
+    {
+        return $this->hasMany(Note::class, 'patient_id');
     }
 
     public function medicationPlans()

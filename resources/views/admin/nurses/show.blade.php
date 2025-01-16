@@ -6,7 +6,7 @@
 												<div class="container-fluid d-flex justify-content-between mt-5">
 																<div>
 																				<a href="{{ route('admin.nurses.index') }}" class="btn btn-primary m-2">Back</a>
-																				<a href="{{ route('admin.nurses.edit', ['nurse' => $nurse->id]) }}" class="btn btn-info m-2">Edit</a>
+																				{{--  <a href="{{ route('admin.nurses.edit', ['nurse' => $nurse->id]) }}" class="btn btn-info m-2">Edit</a>  --}}
 																				<a href="{{ route('admin.allocate_wards.create', ['nurse' => $nurse->id]) }}"
 																								class="btn btn-outline-primary m-2">Allocate Wards</a>
 																</div>

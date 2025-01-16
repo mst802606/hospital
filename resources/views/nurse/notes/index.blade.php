@@ -9,6 +9,7 @@
 								<thead>
 												<tr>
 																<th>#</th>
+																<th>Patient</th>
 																<th>Ward</th>
 																<th>Note</th>
 																<th>Active</th>
@@ -20,6 +21,7 @@
 												@foreach ($notes as $note)
 																<tr>
 																				<td>{{ $note->id }}</td>
+																				<td>{{ $note->patient->user->username ?? 'N/A' }}</td>
 																				<td>{{ $note->ward->name ?? 'N/A' }}</td>
 																				<td>{{ Str::limit($note->note, 50) }}</td>
 																				<td>{{ $note->is_active ? 'Yes' : 'No' }}</td>

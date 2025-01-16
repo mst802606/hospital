@@ -115,6 +115,10 @@ Route::prefix('/nurse')->name('nurse.')->middleware(['auth', 'nurse', 'medicatio
         Route::resource('wards', WardController::class);
 
         //notes
+
+        Route::get('notes/patient/{patient}/show-notes', [NoteController::class, 'index'])->name('notes.patient-notes');
+        Route::get('notes/patient/{patient}/create-notes', [NoteController::class, 'create'])->name('notes.patient-notes.create');
+
         Route::resource('notes', NoteController::class);
 
         //Hospitals

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Doctor;
 
 use App\Http\Controllers\Controller;
@@ -25,7 +24,7 @@ class MedicationController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create($medication_plan_id)
+    public function create($medication_plan_id = null)
     {
         // Fetch all medication plans for the dropdown
         $plans = MedicationPlan::all();
@@ -49,7 +48,7 @@ class MedicationController extends Controller
         // Validate and create the medication
         $result = Medication::create($request->except('medication_plan_id'));
 
-        if (!$result) {
+        if (! $result) {
             return back()->with('error', 'Medication could not be added.');
         }
 
@@ -58,8 +57,7 @@ class MedicationController extends Controller
 
             // dd($medicationPlan);
             $result = $medicationPlan->medications()->syncWithoutDetaching([$result->id =>
-            ["status"=> "active"]]);
-
+                ["status" => "active"]]);
 
             return redirect()->route('doctor.medication_plans.show', ['medication_plan' => $medicationPlan])
                 ->with('success', 'Medication created successfully.');

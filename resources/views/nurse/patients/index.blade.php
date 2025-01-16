@@ -19,6 +19,7 @@
 																												<th>Admitted</th>
 																												<th>Status</th>
 																												<th>Medication</th>
+																												<th>Notes</th>
 																												<th>Actions</th>
 																								</tr>
 																				</thead>
@@ -38,6 +39,18 @@
 																																				@else
 																																								N/A
 																																				@endif
+																																</td>
+																																<td>
+
+																																				@if (count($patient->notes) > 0)
+																																								<a class="btn btn-outline-info rounded"
+																																												href="{{ route('nurse.notes.patient-notes', ['patient' => $patient]) }}">
+																																												<i class="fa fa-eye"></i>View {{ count($patient->notes) }} Notes
+																																								</a>
+																																				@else
+																																								N/A
+																																				@endif
+
 																																</td>
 																																<td>
 																																				<a href="{{ route('nurse.patients.show', $patient->id) }}"

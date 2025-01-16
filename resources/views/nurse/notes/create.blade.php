@@ -8,12 +8,22 @@
 								@csrf
 
 
-								<div class="form-group">
+								{{--  <div class="form-group">
 												<label for="ward_id">Ward</label>
 												<select name="ward_id" id="ward_id" class="form-control">
 																<option value="">Select Ward</option>
 																@foreach ($wards as $ward)
 																				<option value="{{ $ward->id }}">{{ $ward->name }}</option>
+																@endforeach
+												</select>
+								</div>  --}}
+
+								<div class="form-group">
+												<label for="patient_id">Patient</label>
+												<select name="patient_id" id="patient_id" class="form-control">
+																<option value="" disabled>Select Patient</option>
+																@foreach ($patients as $patient)
+																				<option value="{{ $patient->id }}">{{ $patient->user->username }}</option>
 																@endforeach
 												</select>
 								</div>

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->bigInteger("notable_id");
             $table->string('notable_type');
             $table->foreignId('ward_id')->nullable()->references('id')->on('wards');
+            $table->foreignId('patient_id')->nullable()->references('id')->on('patients');
             $table->longText('note');
             $table->boolean('is_active');
             $table->timestamps();

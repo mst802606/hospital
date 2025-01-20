@@ -24,8 +24,11 @@ return new class extends Migration
             $table->double('amount_taken_night')->nullable();
             $table->double('total_amount_given')->nullable();
             $table->text('recommendation_notes')->nullable();
+            $table->boolean("is_patient_served")->nullable;
+            $table->text("medication_reason")->nullable;
+            $table->text("other_reason")->nullable;
             $table->dateTime('last_given')->nullable();
-            $table->enum('status', ['pending', 'active', 'completed']);
+            $table->enum('status', ['pending', 'active', 'completed'])->default('active');
             $table->timestamps();
         });
 

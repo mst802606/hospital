@@ -7,16 +7,28 @@
 												@csrf
 												<div class="mb-3">
 																<label for="name" class="form-label">Name:</label>
-																<input type="text" class="form-control" id="name" name="name" required>
+																<input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name"
+																				value="{{ old('name') }}" required>
+																@error('name')
+																				<span class="invalid-feedback" role="alert">
+																								<strong>{{ $message }}</strong>
+																				</span>
+																@enderror
 												</div>
 												<div class="mb-3">
 																<label for="description" class="form-label">Description:</label>
-																<textarea class="form-control" id="description" name="description" rows="3"></textarea>
+																<textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description"
+																    rows="3">{{ old('description') }}</textarea>
+																@error('description')
+																				<span class="invalid-feedback" role="alert">
+																								<strong>{{ $message }}</strong>
+																				</span>
+																@enderror
 												</div>
 												<div class="row">
 																<div class="col-3">
 																				<div class="form-group">
-																								<label for="time">Date</label>
+																								<label for="time">Start Date</label>
 																								<div class="flatpickr @error('start_date') is-invalid @enderror">
 																												<input name="start_date" value="{{ old('start_date') }}" type="date-local" class="form-control"
 																																placeholder="Select Date.." data-input>
@@ -39,7 +51,7 @@
 																</div>
 																<div class="col-3">
 																				<div class="form-group">
-																								<label for="time">Time</label>
+																								<label for="time">Start Time</label>
 																								<div class="flatpickr  @error('start_time') is-invalid @enderror">
 																												<input name="start_time" type="time-local" value="{{ old('start_time') }}" class="form-control"
 																																placeholder="Select time.." data-input>

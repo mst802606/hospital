@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('date_of_birth')->nullable();
             $table->boolean('admitted')->default(false);
             $table->text('medical_history')->nullable();
+            $table->dateTime('medication_required_at')->nullable();
             $table->foreignId('ward_id')->nullable()->references('id')->on('wards');
             $table->boolean('status')->default(true);
             $table->timestamps();

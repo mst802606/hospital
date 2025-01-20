@@ -11,9 +11,11 @@
 																				<a href="{{ route('admin.diagnoses.index') }}" class="btn btn-primary m-2">Back</a>
 																				<a href="{{ route('admin.diagnoses.edit', ['diagnosis' => $diagnosis->id]) }}"
 																								class="btn btn-info m-2">Edit</a>
-																				<a href="{{ route('admin.allocations.patients.create', ['patient' => $diagnosis->patient]) }}"
-																								class="btn btn-info m-2">Place patient on medication
-																								Plan</a>
+																				@if ($diagnosis->patient->status == true)
+																								<a href="{{ route('admin.allocations.patients.create', ['patient' => $diagnosis->patient]) }}"
+																												class="btn btn-info m-2">Place patient on medication
+																												Plan</a>
+																				@endif
 
 
 																</div>

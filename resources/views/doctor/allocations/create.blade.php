@@ -20,7 +20,9 @@
 								</div>
 
 								<div class="mb-3">
-												<label for="plan_id" class="form-label">Medication Plan:</label>
+												<label for="plan_id" class="form-label">Medication Plan: <a
+																				href="{{ route('doctor.medication_plans.create') }}">Or create
+																				one</a></label>
 												<select name="plan_id" id="plan_id" class="form-select">
 																@foreach ($plans as $plan)
 																				<option value="{{ $plan->id }}">{{ $plan->name }}</option>

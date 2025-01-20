@@ -13,10 +13,13 @@
 																								class="btn btn-info m-2">Edit</a>
 
 
-																				<a href="/doctor/allocations/patients/create/{{ $diagnosis->patient->id }}" class="btn btn-info m-2">Place
-																								on
-																								Medication
-																								Plan</a>
+																				@if ($diagnosis->patient->status == true)
+																								<a href="/doctor/allocations/patients/create/{{ $diagnosis->patient->id }}"
+																												class="btn btn-info m-2">Place
+																												on
+																												Medication
+																												Plan</a>
+																				@endif
 
 																</div>
 																<div>

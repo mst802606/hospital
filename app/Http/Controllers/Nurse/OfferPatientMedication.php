@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Nurse;
 
 use App\Http\Controllers\BaseController;
@@ -52,13 +51,13 @@ class OfferPatientMedication extends BaseController
 
         $ward_ids = $this->nurse()->wards()->pluck('wards.id');
 
-        $medication_amounts = array(
+        $medication_amounts = [
             'amount_taken_morning' => "amount taken morning",
-            'amount_taken_noon' => "amount taken noon",
+            'amount_taken_noon'    => "amount taken noon",
             'amount_taken_evening' => "amount taken evening",
-            'amount_taken_night' => "amount taken night",
+            'amount_taken_night'   => "amount taken night",
 
-        );
+        ];
 
         $patient = Patient::where('id', $id)
         // ->whereHas('medicationPlans')
@@ -76,34 +75,31 @@ class OfferPatientMedication extends BaseController
     public function edit(string $patient_id, $medication_plan_id)
     {
         //
-        $patient = Patient::where('id', $patient_id)->with('medicationPlans.medications')->first();
-        $medication_plan = MedicationPlan::where('id', $medication_plan_id)->first();
-        $medication_amounts = array(
+        $patient            = Patient::where('id', $patient_id)->with('medicationPlans.medications')->first();
+        $medication_plan    = MedicationPlan::where('id', $medication_plan_id)->first();
+        $medication_amounts = [
             'amount_taken_morning' => "amount taken morning",
-            'amount_taken_noon' => "amount taken noon",
+            'amount_taken_noon'    => "amount taken noon",
             'amount_taken_evening' => "amount taken evening",
-            'amount_taken_night' => "amount taken night",
+            'amount_taken_night'   => "amount taken night",
 
-        );
+        ];
         return view('nurse.medications.offer_medication.edit', compact('patient', "medication_plan", "medication_amounts"));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $patient_id, string $medication_id)
+    public function updateFailedMedication(Request $request, $patient_id, $medication_id)
     {
+        // Validate the form
+        $validated = $request->validate([
+            'is_patient_served' => 'nullable|boolean',
+            'medication_reason' => 'required_if:is_patient_served,0|in:surgery,nausea,refusal,other',
+            'other_reason'      => 'required_if:medication_reason,other|string|max:255',
+        ]);
 
-        $request->validate(
-            [
-                'dosage_time' => "required",
-                "dosage_amount" => "required",
-            ]
-        );
         $patient = Patient::where('id', $patient_id)->first();
 
-// Retrieve today's medications
-        $medication = Medication::where('id', $medication_id)->first();
+        // Retrieve today's medications
+        $medication         = Medication::where('id', $medication_id)->first();
         $patient_medication = $patient->medications()
             ->where('medications.id', $medication_id)
             ->whereDate('medications_patients.created_at', today())
@@ -123,16 +119,17 @@ class OfferPatientMedication extends BaseController
             $result = DB::table('medications_patients')
                 ->where('medications_patients.id', $pivotRecord->id) // Use the specific pivot row ID
                 ->update([
-                    "last_given" => now(),
-                    $request->dosage_time => $request->dosage_amount,
-                    "total_amount_given" => $pivotRecord->total_amount_given += $request->dosage_amount,
-                    'updated_at' => now(),
+                    "is_patient_served" => $request->is_patient_served,
+                    'medication_reason' => $request->medication_reason,
+                    "other_reason"      => $request->other_reason,
+                    'created_at'        => now(),
+                    'updated_at'        => now(),
                 ]);
         } else {
             $result = $patient->medications()->attach($medication->id, [
-                "last_given" => now(),
-                $request->dosage_time => $request->dosage_amount,
-                "total_amount_given" => $request->dosage_amount,
+                "is_patient_served"               => $request->is_patient_served,
+                'medication_reason'               => $request->medication_reason,
+                "other_reason"                    => $request->other_reason,
                 'medications_patients.created_at' => now(),
                 'medications_patients.updated_at' => now(),
             ]);
@@ -143,7 +140,69 @@ class OfferPatientMedication extends BaseController
                 ->first();
         }
 
-        if (!$result) {
+        if (! $result) {
+            return back()->with('error', "The patient's medication could not be updated");
+        }
+
+        return back()->with('success', "The patient's medication record has been updated");
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $patient_id, string $medication_id)
+    {
+
+        $request->validate(
+            [
+                'dosage_time'   => "required",
+                "dosage_amount" => "required",
+            ]
+        );
+        $patient = Patient::where('id', $patient_id)->first();
+
+// Retrieve today's medications
+        $medication         = Medication::where('id', $medication_id)->first();
+        $patient_medication = $patient->medications()
+            ->where('medications.id', $medication_id)
+            ->whereDate('medications_patients.created_at', today())
+            ->first();
+
+        $result = null;
+
+        if ($patient_medication) {
+
+            $pivotRecord = DB::table('medications_patients')
+                ->where('patient_id', $patient->id)
+                ->where('medication_id', $medication->id)
+                ->whereDate('created_at', today())
+                ->first();
+
+            // ✅ Update ONLY today's pivot record
+            $result = DB::table('medications_patients')
+                ->where('medications_patients.id', $pivotRecord->id) // Use the specific pivot row ID
+                ->update([
+                    "last_given"          => now(),
+                    $request->dosage_time => $request->dosage_amount,
+                    "total_amount_given"  => $pivotRecord->total_amount_given += $request->dosage_amount,
+                    'updated_at'          => now(),
+                ]);
+        } else {
+            $result = $patient->medications()->attach($medication->id, [
+                "last_given"                      => now(),
+                $request->dosage_time             => $request->dosage_amount,
+                "total_amount_given"              => $request->dosage_amount,
+                'medications_patients.created_at' => now(),
+                'medications_patients.updated_at' => now(),
+            ]);
+
+            $result = $patient->medications()
+                ->where('medications.id', $medication_id)
+                ->whereDate('medications_patients.created_at', today())
+                ->first();
+        }
+
+        if (! $result) {
             return back()->with('error', "The patient's medication could not be updated");
         }
 

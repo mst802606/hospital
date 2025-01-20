@@ -3,7 +3,14 @@
 @section('page')
 				<div class="container">
 								<h1 class="mb-4">Patients List</h1>
-
+								<!-- Search Form -->
+								<div class="mb-4">
+												<form action="{{ route('nurse.patients.search') }}" method="GET" class="form-inline">
+																<input type="text" name="search" class="form-control mr-2" placeholder="Search by Name or ID"
+																				value="{{ request('search') }}">
+																<button type="submit" class="btn btn-primary">Search</button>
+												</form>
+								</div>
 								<div class="card">
 												<div class="card-header">
 																<h5>All Patients</h5>
@@ -14,10 +21,9 @@
 																								<tr>
 																												<th>#</th>
 																												<th>Name</th>
-																												<th>Hospital</th>
 																												<th>Ward</th>
-																												<th>Admitted</th>
-																												<th>Status</th>
+																												<th>Plans</th>
+																												<th>Medication due at</th>
 																												<th>Medication</th>
 																												<th>Notes</th>
 																												<th>Actions</th>
@@ -28,10 +34,20 @@
 																												<tr>
 																																<td>{{ $patient->id }}</td>
 																																<td>{{ $patient->user->username ?? 'N/A' }}</td>
-																																<td>{{ $patient->hospital->name ?? 'N/A' }}</td>
 																																<td>{{ $patient->ward->name ?? 'N/A' }}</td>
-																																<td>{{ $patient->admitted ? 'Yes' : 'No' }}</td>
-																																<td>{{ $patient->status ? 'Active' : 'Inactive' }}</td>
+																																<td>
+																																				@forelse ($patient->medicationPlans as $plan)
+																																								<ax
+																																												href="{{ route('nurse.medication_plans.show', ['medication_plan' => $plan->id]) }}">
+																																												<span class="badge badge-success">
+																																																{{ $plan->name }}
+																																												</span>
+																																												</a>
+																																								@empty
+																																												N/A
+																																				@endforelse
+																																</td>
+																																<td>{{ $patient->medication_required_at ?? 'N/A' }}</td>
 																																<td>
 																																				@if (count($patient->medicationPlans) > 0)
 																																								<a class="btn btn-outline-info rounded"
@@ -55,15 +71,7 @@
 																																<td>
 																																				<a href="{{ route('nurse.patients.show', $patient->id) }}"
 																																								class="btn btn-primary btn-sm">View</a>
-																																				{{--  <a href="{{ route('nurse.patients.edit', $patient->id) }}"
-																																								class="btn btn-warning btn-sm">Edit</a>  --}}
-																																				{{--  <form action="{{ route('nurse.patients.destroy', $patient->id) }}" method="POST"
-																																								style="display:inline;">
-																																								@csrf
-																																								@method('DELETE')
-																																								<button type="submit" class="btn btn-danger btn-sm"
-																																												onclick="return confirm('Are you sure?')">Delete</button>
-																																				</form>  --}}
+
 																																</td>
 																												</tr>
 																								@empty

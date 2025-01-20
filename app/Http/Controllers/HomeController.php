@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 class HomeController extends BaseController
@@ -23,7 +22,7 @@ class HomeController extends BaseController
         } else if (auth()->user()->role == 2) {
             return view('doctor.home');
         } else if (auth()->user()->role == 3) {
-            return view('nurse.home');
+            return redirect(route('nurse.patients.index'));
         } else if (auth()->user()->role == 0 && auth()->user()->is_admin == true) {
             $hospital = $this->hospital();
             return view('admin.home', compact('hospital'));

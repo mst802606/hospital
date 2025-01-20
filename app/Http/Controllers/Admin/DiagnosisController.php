@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
@@ -22,7 +21,7 @@ class DiagnosisController extends BaseController
     public function index()
     {
         //
-        $diagnoses = Diagnosis::with('patient.user')->with('doctor.user')->orderBy('status', 'DESC')->orderBy('created_at', 'DESC')->get();
+        $diagnoses                  = Diagnosis::with('patient.user')->with('doctor.user')->orderBy('status', 'DESC')->orderBy('created_at', 'DESC')->get();
         $diagnosesdata['diagnoses'] = $diagnoses;
         return view('admin.diagnosis.index', compact('diagnosesdata'));
     }
@@ -36,6 +35,7 @@ class DiagnosisController extends BaseController
         $doctors = Doctor::with('user')
             ->get();
         $patients = Patient::with('user')
+            ->where('status', true)
             ->get();
         return view('admin.diagnosis.create', compact('doctors', 'patients'));
     }
@@ -48,13 +48,13 @@ class DiagnosisController extends BaseController
         //
         $validator = Validator::make($request->input(), [
             // 'visit_id' => 'required',
-            'diagnosis' => 'required',
+            'diagnosis'    => 'required',
             'prescription' => 'required',
-            'regulation' => 'required',
-            'message' => 'required',
-            'status' => 'required',
-            'doctor_id' => 'required',
-            'patient_id' => 'required',
+            'regulation'   => 'required',
+            'message'      => 'required',
+            'status'       => 'required',
+            'doctor_id'    => 'required',
+            'patient_id'   => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -65,7 +65,7 @@ class DiagnosisController extends BaseController
 
         // $visit = Visits::where('id', $request->visit_id)->with('patient.user')->first();
 
-        $patient = Patient::where('id', $request->patient_id)->first();
+        $patient   = Patient::where('id', $request->patient_id)->first();
         $validated = $validator->safe();
 
         $diagnosis = $patient->diagnoses()->create(
@@ -80,7 +80,7 @@ class DiagnosisController extends BaseController
     public function show(string $id)
     {
         //
-        $diagnosis = Diagnosis::where('id', $id)->with('patient.user')->with('patient.diagnosis')->first();
+        $diagnosis                  = Diagnosis::where('id', $id)->with('patient.user')->first();
         $diagnosisdata['diagnosis'] = $diagnosis;
         return view('admin.diagnosis.show', compact('diagnosisdata'));
     }
@@ -92,9 +92,9 @@ class DiagnosisController extends BaseController
     {
         //
 
-        $diagnosis = Diagnosis::where('id', $id)->first();
+        $diagnosis                  = Diagnosis::where('id', $id)->first();
         $diagnosisdata['diagnosis'] = $diagnosis;
-        $doctors = Doctor::with('user')
+        $doctors                    = Doctor::with('user')
             ->get();
         $diagnosisdata['doctors'] = $doctors;
         return view('admin.diagnosis.edit', compact('diagnosisdata'));
@@ -111,7 +111,7 @@ class DiagnosisController extends BaseController
         $result = $diagnosis->update(
             $request->except(['_method', '_token'])
         );
-        if (!$result) {
+        if (! $result) {
             return back()->with('error', 'This item could not be updated');
         }
 
@@ -125,7 +125,7 @@ class DiagnosisController extends BaseController
     {
         //
         $result = Diagnosis::destroy($id);
-        if (!$result) {
+        if (! $result) {
             return back()->with('error', 'This item could not be deleted');
         }
 

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Doctor;
 
 use App\Http\Controllers\Controller;
@@ -37,12 +36,19 @@ class MedicationPlanController extends Controller
 
         // Validate and create the medication plan
 
+        $request->validate([
+            "name"        => 'required',
+            "description" => 'required',
+            "start_date"  => 'required',
+            "start_time"  => 'required',
+        ]);
+
         $result = MedicationPlan::create([
-            'name' => $request->name,
+            'name'        => $request->name,
             'description' => $request->description,
-            "start_date" => $request->start_date,
-            "start_time" => $request->start_time,
-            "is_active" => true,
+            "start_date"  => $request->start_date,
+            "start_time"  => $request->start_time,
+            "is_active"   => true,
         ]);
 
         // Redirect to the index page with a success message
@@ -70,7 +76,7 @@ class MedicationPlanController extends Controller
         //
 
         $medications = Medication::all();
-        $plan = MedicationPlan::with('medications')->findOrFail($medicationPlan->id);
+        $plan        = MedicationPlan::with('medications')->findOrFail($medicationPlan->id);
         return view('doctor.medication_plans.edit', compact('plan', 'medications'));
     }
 
@@ -80,18 +86,18 @@ class MedicationPlanController extends Controller
     public function update(UpdateMedicationPlanRequest $request, MedicationPlan $medicationPlan)
     {
         $medicationPlan->update([
-            'name' => $request->name,
+            'name'        => $request->name,
             'description' => $request->description,
-            "start_date" => $request->start_date,
-            "start_time" => $request->start_time,
-            "is_active" => true,
+            "start_date"  => $request->start_date,
+            "start_time"  => $request->start_time,
+            "is_active"   => true,
         ]);
 
         $medicationPlan = MedicationPlan::where('id', $medicationPlan->id)->first();
 
         $result = $medicationPlan->medications()->toggle($request->medications);
 
-        if (!$result) {
+        if (! $result) {
             return back()->with('error', 'Medication plan could not be updated');
         }
 

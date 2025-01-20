@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Nurse;
 
 use App\Http\Controllers\BaseController;
@@ -11,13 +10,32 @@ class PatientController extends BaseController
     /**
      * Display a listing of the resource.
      */
+
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+
+        $ward_ids = $this->nurse()->wards()->pluck('wards.id');
+
+        // Perform the search query based on name or ID
+        $patients = Patient::where('id', 'like', '%' . $search . '%')
+            ->orWhereHas('user', function ($query) use ($search) {
+                $query->where('username', 'like', '%' . $search . '%');
+            })
+            ->whereIn('ward_id', $ward_ids)
+            ->with(['user', 'hospital', 'ward'])
+            ->get();
+
+        return view('nurse.patients.index', compact('patients'));
+    }
+
     public function index()
     {
         //
 
         $ward_ids = $this->nurse()->wards()->pluck('wards.id');
 
-        $patients = Patient::whereIn('ward_id', $ward_ids)->get();
+        $patients = Patient::whereIn('ward_id', $ward_ids)->where('status', true)->get();
         return view('nurse.patients.index', compact('patients'));
     }
 

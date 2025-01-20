@@ -17,6 +17,24 @@
 																								<p><strong>Date of Birth:</strong> {{ $patient->date_of_birth ?? 'N/A' }}</p>
 																								<p><strong>Ward:</strong> {{ $patient->ward->name ?? 'N/A' }}</p>
 																				</div>
+																				<div class="col-md col-xl col-lg">
+																								<h4>Medication History</h4>
+																								@if (count($patient->medications) > 0)
+																												@foreach ($patient->medications as $medication)
+																																@if (!$medication->pivot->is_patient_served)
+																																				<p>Medication not given because of
+																																								{{ $medication->pivot->medication_reason ?? $medication->pivot->other_reason }}
+																																				</p>
+																																@else
+																																				<p>Patient served at
+																																								{{ $medication->pivot->last_given ?? $medication->pivot->updated_at }}
+																																				</p>
+																																@endif
+																												@endforeach
+																								@else
+																												N/A
+																								@endif
+																				</div>
 
 																</div>
 												</div>
@@ -78,7 +96,7 @@
 																																																								<span aria-hidden="true">&times;</span>
 																																																				</button>
 																																																</div>
-																																																<div class="row">
+																																																<div class="row modal-body">
 																																																				<div class="col-md col-xl col-lg">
 																																																								<h4>Medication confirmation form</h4>
 
@@ -144,16 +162,27 @@
 
 																																																																<div class="col-md col-xl col-lg">
 																																																																				<div class="form-row">
-																																																																								<!-- Checkbox to verify if the nurse has given medication -->
-																																																																								<input type="checkbox" value="1"
-																																																																												id="is_patient_served"
-																																																																												class="checkbox form-checkbox"
-																																																																												name="is_patient_served"
-																																																																												{{ old('is_patient_served') ? 'checked' : '' }}>
-																																																																								<label for="is_patient_served"
-																																																																												class="form-label mx-2">Is patient medication
-																																																																												offered?</label>
-
+																																																																								<h5>Has patient been offered medication?</h5>
+																																																																				</div>
+																																																																				<div class="form-row">
+																																																																								<div class="card-body">
+																																																																												<label for="is_patient_served"
+																																																																																class="form-label mx-2">Yes.</label>
+																																																																												<input type="checkbox" value="1"
+																																																																																id="is_patient_served"
+																																																																																class="checkbox form-checkbox"
+																																																																																name="is_patient_served"
+																																																																																{{ old('is_patient_served') ? 'checked' : '' }}>
+																																																																								</div>
+																																																																								<div class="card-body"><label
+																																																																																for="is_patient_not_served"
+																																																																																class="form-label mx-2">No.</label>
+																																																																												<input type="checkbox" value="0"
+																																																																																id="is_patient_not_served"
+																																																																																class="checkbox form-checkbox"
+																																																																																name="is_patient_served"
+																																																																																{{ old('is_patient_served') ? 'checked' : '' }}>
+																																																																								</div>
 																																																																								@error('is_patient_served')
 																																																																												<div class="text-danger">{{ $message }}</div>
 																																																																								@enderror
@@ -177,8 +206,8 @@
 
 																																																																								<div class="form-check">
 																																																																												<input class="form-check-input" type="radio"
-																																																																																name="medication_reason" id="reason_nausea"
-																																																																																value="nausea"
+																																																																																name="medication_reason"
+																																																																																id="reason_nausea" value="nausea"
 																																																																																{{ old('medication_reason') == 'nausea' ? 'checked' : '' }}>
 																																																																												<label class="form-check-label"
 																																																																																for="reason_nausea">Nausea</label>
@@ -186,8 +215,8 @@
 
 																																																																								<div class="form-check">
 																																																																												<input class="form-check-input" type="radio"
-																																																																																name="medication_reason" id="reason_refusal"
-																																																																																value="refusal"
+																																																																																name="medication_reason"
+																																																																																id="reason_refusal" value="refusal"
 																																																																																{{ old('medication_reason') == 'refusal' ? 'checked' : '' }}>
 																																																																												<label class="form-check-label"
 																																																																																for="reason_refusal">Refusal</label>
@@ -227,7 +256,7 @@
 																																																																				const reasonSection = document.getElementById('reason-section');
 																																																																				const medicationOfferedSection = document.getElementById('medication-offered-section');
 
-
+																																																																				document.getElementById('is_patient_not_served').checked = false;
 																																																																				if (this.checked) {
 																																																																								reasonSection.classList.add('d-none'); // Hide reason section
 																																																																								medicationOfferedSection.classList.remove('d-none');
@@ -236,6 +265,22 @@
 
 																																																																								medicationOfferedSection.classList.add('d-none');
 																																																																								reasonSection.classList.remove('d-none'); // Show reason section
+																																																																				}
+																																																																});
+
+																																																																// JavaScript to toggle the reason section based on the checkbox state
+																																																																document.getElementById('is_patient_not_served').addEventListener('change', function() {
+																																																																				const reasonSection = document.getElementById('reason-section');
+																																																																				const medicationOfferedSection = document.getElementById('medication-offered-section');
+																																																																				document.getElementById('is_patient_served').checked = false;
+																																																																				if (this.checked) {
+
+																																																																								medicationOfferedSection.classList.add('d-none');
+																																																																								reasonSection.classList.remove('d-none'); // Show reason section
+
+																																																																				} else {
+																																																																								medicationOfferedSection.classList.remove('d-none');
+																																																																								reasonSection.classList.add('d-none'); // Hide reason section
 																																																																				}
 																																																																});
 																																																												</script>

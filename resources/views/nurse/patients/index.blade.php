@@ -25,6 +25,7 @@
 																												<th>Plans</th>
 																												<th>Medication due at</th>
 																												<th>Medication</th>
+																												<th>History</th>
 																												<th>Notes</th>
 																												<th>Actions</th>
 																								</tr>
@@ -50,11 +51,31 @@
 																																<td>{{ $patient->medication_required_at ?? 'N/A' }}</td>
 																																<td>
 																																				@if (count($patient->medicationPlans) > 0)
-																																								<a class="btn btn-outline-info rounded"
-																																												href="/nurse/offer-medication/show/{{ $patient->id }}">Offer mediation</a>
+																																								<div class="card-body">
+																																												<a class="btn btn-outline-info btn-sm rounded"
+																																																href="/nurse/offer-medication/show/{{ $patient->id }}">Offer mediation</a>
+																																								</div>
 																																				@else
 																																								N/A
 																																				@endif
+																																</td>
+																																<td>
+																																				@if (count($patient->medications) > 0)
+																																								@foreach ($patient->medications as $medication)
+																																												@if (!$medication->pivot->is_patient_served)
+																																																<p>Medication not given because of
+																																																				{{ $medication->pivot->medication_reason ?? $medication->pivot->other_reason }}
+																																																</p>
+																																												@else
+																																																<p>Patient served at
+																																																				{{ $medication->pivot->last_given ?? $medication->pivot->updated_at }}
+																																																</p>
+																																												@endif
+																																								@endforeach
+																																				@else
+																																								N/A
+																																				@endif
+
 																																</td>
 																																<td>
 

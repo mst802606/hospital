@@ -14,13 +14,39 @@
 																@endif
 												</div>
 												<div class="card-body">
-																<p><strong>Patient ID:</strong> {{ $patient->id }}</p>
-																<p><strong>User Name:</strong> {{ $patient->user->username ?? 'N/A' }}</p>
-																<p><strong>Hospital:</strong> {{ $patient->hospital->name ?? 'N/A' }}</p>
-																<p><strong>Date of Birth:</strong> {{ $patient->date_of_birth ?? 'N/A' }}</p>
-																<p><strong>Admitted:</strong> {{ $patient->admitted ? 'Yes' : 'No' }}</p>
-																<p><strong>Ward:</strong> {{ $patient->ward->name ?? 'N/A' }}</p>
-																<p><strong>Status:</strong> {{ $patient->status ? 'Active' : 'Inactive' }}</p>
+																<div class="row">
+																				<div class="col-md col-xl col-lg">
+																								<p><strong>Patient ID:</strong> {{ $patient->id }}</p>
+																								<p><strong>User Name:</strong> {{ $patient->user->username ?? 'N/A' }}</p>
+																								<p><strong>Hospital:</strong> {{ $patient->hospital->name ?? 'N/A' }}</p>
+																								<p><strong>Date of Birth:</strong> {{ $patient->date_of_birth ?? 'N/A' }}</p>
+																								<p><strong>Admitted:</strong> {{ $patient->admitted ? 'Yes' : 'No' }}</p>
+																								<p><strong>Ward:</strong> {{ $patient->ward->name ?? 'N/A' }}</p>
+																								<p><strong>Status:</strong> {{ $patient->status ? 'Active' : 'Inactive' }}</p>
+																				</div>
+																				<div class="col-md col-xl col-lg">
+																								<h4>Medication History</h4>
+																								<div class="col-md col-xl col-lg">
+																												@if (count($patient->medications) > 0)
+																																@foreach ($patient->medications as $medication)
+																																				@if (!$medication->pivot->is_patient_served)
+																																								<p>Medication not given because of
+																																												{{ $medication->pivot->medication_reason ?? $medication->pivot->other_reason }}
+																																								</p>
+																																				@else
+																																								<p>Patient served at
+																																												{{ $medication->pivot->last_given ?? $medication->pivot->updated_at }}
+																																								</p>
+																																				@endif
+																																@endforeach
+																												@else
+																																N/A
+																												@endif
+																								</div>
+
+																				</div>
+
+																</div>
 												</div>
 
 

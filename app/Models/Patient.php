@@ -86,6 +86,9 @@ class Patient extends Model
             "recommendation_notes",
             "last_given",
             "status",
+            "is_patient_served",
+            "medication_reason",
+            "other_reason",
         );
     }
 }

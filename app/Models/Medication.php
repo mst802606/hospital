@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,12 +13,12 @@ class Medication extends Model
     public function medicationPlans()
     {
         return $this->belongsToMany(MedicationPlan::class, 'medication_medication_plans')
-        ->withPivot(
-            "nurse_id",
-"doctor_id",
-"recommendation_notes",
-"status",
-        );
+            ->withPivot(
+                "nurse_id",
+                "doctor_id",
+                "recommendation_notes",
+                "status",
+            );
     }
 
     public function patients()
@@ -35,6 +34,9 @@ class Medication extends Model
             "recommendation_notes",
             "last_given",
             "status",
+            "is_patient_served",
+            "medication_reason",
+            "other_reason",
         );
     }
 

@@ -179,22 +179,54 @@ class OfferPatientMedication extends BaseController
                 ->first();
 
             // ✅ Update ONLY today's pivot record
-            $result = DB::table('medications_patients')
-                ->where('medications_patients.id', $pivotRecord->id) // Use the specific pivot row ID
-                ->update([
-                    "last_given"          => now(),
-                    $request->dosage_time => $request->dosage_amount,
-                    "total_amount_given"  => $pivotRecord->total_amount_given += $request->dosage_amount,
-                    'updated_at'          => now(),
-                ]);
+            if ($request->is_patient_served) {
+                $result = DB::table('medications_patients')
+                    ->where('medications_patients.id', $pivotRecord->id) // Use the specific pivot row ID
+                    ->update([
+                        "last_given"          => now(),
+                        $request->dosage_time => $request->dosage_amount,
+                        "total_amount_given"  => $pivotRecord->total_amount_given += $request->dosage_amount,
+                        "is_patient_served"   => $request->is_patient_served,
+                        'medication_reason'   => $request->medication_reason,
+                        "other_reason"        => $request->other_reason,
+                        'updated_at'          => now(),
+                    ]);
+            } else {
+                $result = DB::table('medications_patients')
+                    ->where('medications_patients.id', $pivotRecord->id) // Use the specific pivot row ID
+                    ->update([
+                        "last_given"        => now(),
+                        "is_patient_served" => $request->is_patient_served,
+                        'medication_reason' => $request->medication_reason,
+                        "other_reason"      => $request->other_reason,
+                        'updated_at'        => now(),
+                    ]);
+
+            }
         } else {
-            $result = $patient->medications()->attach($medication->id, [
-                "last_given"                      => now(),
-                $request->dosage_time             => $request->dosage_amount,
-                "total_amount_given"              => $request->dosage_amount,
-                'medications_patients.created_at' => now(),
-                'medications_patients.updated_at' => now(),
-            ]);
+            if ($request->is_patient_served) {
+                $result = $patient->medications()->attach($medication->id, [
+                    "last_given"                      => now(),
+                    $request->dosage_time             => $request->dosage_amount,
+                    "total_amount_given"              => $request->dosage_amount,
+                    "is_patient_served"               => $request->is_patient_served,
+                    'medication_reason'               => $request->medication_reason,
+                    "other_reason"                    => $request->other_reason,
+                    'medications_patients.created_at' => now(),
+                    'medications_patients.updated_at' => now(),
+                ]);
+
+            } else {
+                $result = $patient->medications()->attach($medication->id, [
+                    "last_given"                      => now(),
+                    "is_patient_served"               => $request->is_patient_served,
+                    'medication_reason'               => $request->medication_reason,
+                    "other_reason"                    => $request->other_reason,
+                    'medications_patients.created_at' => now(),
+                    'medications_patients.updated_at' => now(),
+                ]);
+
+            }
 
             $result = $patient->medications()
                 ->where('medications.id', $medication_id)

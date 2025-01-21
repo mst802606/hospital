@@ -1,5 +1,4 @@
 <?php
-
 namespace Database\Factories;
 
 use App\Models\Patient;
@@ -21,11 +20,11 @@ class PatientFactory extends Factory
     {
         return [
             //
-            'user_id' => 1,
+            'user_id'     => 1,
             'hospital_id' => 1,
-            'ward_id' => 1,
-            'admitted' => $this->faker->boolean(),
-            'status' => $this->faker->boolean(),
+            'ward_id'     => 1,
+            'admitted'    => true,
+            'status'      => true,
         ];
     }
 }

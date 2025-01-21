@@ -16,8 +16,10 @@
 																				href="{{ route('admin.hospitals.index') }}">Hospital</a>
 																{{--  <a class="list-group-item list-group-item-action list-group-item-dark p-3"
 																				href="{{ route('admin.visits.index') }}">Visits</a>  --}}
+																{{--  <a class="list-group-item list-group-item-action list-group-item-dark p-3"
+																				href="{{ route('admin.diagnoses.index') }}">Diagnoses</a>  --}}
 																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
-																				href="{{ route('admin.diagnoses.index') }}">Diagnoses</a>
+																				href="{{ route('admin.patients.index') }}">Patients</a>
 																<a class="list-group-item list-group-item-action list-group-item-dark p-3"
 																				href="{{ route('admin.doctors.index') }}">Doctors</a>
 																<a class="list-group-item list-group-item-action list-group-item-dark p-3"

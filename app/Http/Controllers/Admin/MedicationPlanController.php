@@ -119,7 +119,11 @@ class MedicationPlanController extends Controller
     {
         //
 
-        MedicationPlan::destroy($medicationPlan->id);
+        $result = MedicationPlan::destroy($medicationPlan->id);
+
+        if (! $result) {
+            return back()->with('error', "Mediaction plan could not be deleted");
+        }
         return redirect()->route('admin.medication_plans.index');
     }
 }

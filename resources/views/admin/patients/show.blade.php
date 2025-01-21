@@ -1,4 +1,4 @@
-@extends('layouts.nurse')
+@extends('layouts.admin')
 
 @section('page')
 				<div class="container">
@@ -7,6 +7,9 @@
 								<div class="card">
 												<div class="card-header">
 																<h5>Patient Information</h5>
+
+																{{--  <a class="btn btn-outline-info rounded float-right"
+																				href="/admin/offer-medication/show/{{ $patient->id }}">Offer mediation</a>  --}}
 												</div>
 												<div class="card-body">
 																<p><strong>Patient ID:</strong> {{ $patient->id }}</p>
@@ -43,9 +46,9 @@
 																																								<td>{{ $plan->start_time }}</td>
 																																								<td>{{ $plan->is_active ? 'Yes' : 'No' }}</td>
 																																								<td>
-																																												<a href="{{ route('nurse.medication_plans.show', $plan) }}"
+																																												<a href="{{ route('admin.medication_plans.show', $plan) }}"
 																																																class="btn btn-info btn-sm">View</a>
-																																												<a href="{{ route('nurse.medication_plans.edit', $plan) }}"
+																																												<a href="{{ route('admin.medication_plans.edit', $plan) }}"
 																																																class="btn btn-warning btn-sm">Edit</a>
 																																								</td>
 																																				</tr>
@@ -58,7 +61,7 @@
 								</div>
 
 								<div class="mt-4">
-												<a href="{{ route('nurse.patients.index') }}" class="btn btn-secondary">Back to List</a>
+												<a href="{{ route('admin.patients.index') }}" class="btn btn-secondary">Back to List</a>
 								</div>
 				</div>
 @endsection

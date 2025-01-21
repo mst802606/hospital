@@ -98,6 +98,7 @@ Route::prefix('/doctor')->name('doctor.')->middleware(['auth', 'doctor'])->group
 
         //allocate medication plan
         Route::get('allocations/create', [DoctorPatientMedicationAllocationController::class, 'create'])->name('allocations.create');
+        Route::delete('allocations/{medication_plan}/destroy/{patient}', [DoctorPatientMedicationAllocationController::class, 'destroy'])->name('allocations.destroy');
         Route::get('allocations/patients/create/{id}', [DoctorPatientMedicationAllocationController::class, 'placePatientOnMedicatonPlan'])->name('allocations.patients');
 
         Route::post('allocations', [DoctorPatientMedicationAllocationController::class, 'store'])->name('allocations.store');
@@ -109,7 +110,7 @@ Route::prefix('/nurse')->name('nurse.')->middleware(['auth', 'nurse', 'medicatio
         Route::get('/home', [HomeController::class, 'index'])->name('home');
 
         //patients
-        Route::get('/nurse/patients/search', [NursePatientController::class, 'search'])->name('patients.search');
+        Route::get('/patients/search', [NursePatientController::class, 'search'])->name('patients.search');
 
         Route::resource('patients', NursePatientController::class);
 
@@ -208,6 +209,7 @@ Route::prefix('/admin')->name('admin.')->middleware(['admin', 'auth'])->group(
         Route::resource('medication_plans', AdminMedicationPlanController::class);
 
         Route::get('allocations/create', [AdminPatientMedicationAllocationController::class, 'create'])->name('allocations.create');
+        Route::delete('allocations/{medication_plan}/destroy/{patient}', [AdminPatientMedicationAllocationController::class, 'destroy'])->name('allocations.destroy');
         Route::get('allocations/patient/{patient}/create', [AdminPatientMedicationAllocationController::class, 'placePatientOnMedicatonPlan'])->name('allocations.patients.create');
 
         Route::post('allocations', [AdminPatientMedicationAllocationController::class, 'store'])->name('allocations.store');

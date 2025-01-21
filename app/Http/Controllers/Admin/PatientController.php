@@ -1,14 +1,14 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
+use App\Models\Patient;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class PatientController extends Controller
+class PatientController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -16,6 +16,12 @@ class PatientController extends Controller
     public function index()
     {
         //
+
+        // $ward_ids = $this->nurse()->wards()->pluck('wards.id');
+
+        $patients = Patient::all();
+        return view('admin.patients.index', compact('patients'));
+
     }
 
     /**
@@ -36,29 +42,29 @@ class PatientController extends Controller
         //
 
         $request->validate([
-            'firstname' => ['required', 'string', 'max:255'],
-            'lastname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'phoneno' => 'required',
+            'firstname'            => ['required', 'string', 'max:255'],
+            'lastname'             => ['required', 'string', 'max:255'],
+            'email'                => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password'             => ['required', 'string', 'min:8', 'confirmed'],
+            'phoneno'              => 'required',
             'terms_and_conditions' => 'required',
-            'role' => 'required',
+            'role'                 => 'required',
         ]);
 
         $user = User::firstOrCreate(
             [
                 'username' => $request['firstname'] . " " . $request['lastname'],
-                'email' => $request['email'],
+                'email'    => $request['email'],
             ],
             [
-                'role' => $request['role'],
-                'phoneno' => $request['phoneno'],
-                'password' => Hash::make($request['password']),
+                'role'                 => $request['role'],
+                'phoneno'              => $request['phoneno'],
+                'password'             => Hash::make($request['password']),
                 'terms_and_conditions' => true,
             ]
         );
 
-        if (!$user) {
+        if (! $user) {
             return back()->with('error', "Registration Failed!!");
         }
 
@@ -70,7 +76,7 @@ class PatientController extends Controller
             return back()->with('error', "Failed to create associated accounts");
         }
 
-        return $user;
+        return redirect(route('admin.patients.index'));
     }
 
     /**
@@ -79,22 +85,44 @@ class PatientController extends Controller
     public function show(string $id)
     {
         //
+
+        $patient = Patient::where('id', $id)->first();
+        return view('admin.patients.show', compact('patient'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $patient = Patient::findOrFail($id);
+        return view('admin.patients.edit', compact('patient'));
     }
-
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $patient = Patient::findOrFail($id);
+
+        // Validate the incoming request
+        $validatedData = $request->validate([
+            'username' => 'required|string|max:255',
+            'email'    => 'required|email',
+            'phoneno'  => 'required|numeric|digits:10',
+        ]);
+
+        // Update patient data
+        $patient->user->update(
+            ["username" => $request->username,
+                "email"     => $request->email,
+                "phoneno"   => $request->phoneno,
+                "password"  => $request->password ? Hash::make($request->password) : $patient->user->password,
+            ]
+        );
+
+        // Redirect back with success message
+        return redirect()->route('admin.patients.index')->with('success', 'Patient information updated successfully');
     }
 
     /**
@@ -103,6 +131,13 @@ class PatientController extends Controller
     public function destroy(string $id)
     {
         //
+
+        $patient = Patient::where('id', $id)->first();
+        $user    = $patient->first();
+        Patient::destroy($id);
+
+        User::destroy($user->id);
+        return redirect()->route('admin.patients.index')->with('success', 'Patient information updated successfully');
     }
 
     public function createUserAccounts(User $user)
@@ -128,7 +163,7 @@ class PatientController extends Controller
     {
         # code...
         $result = $user->profile()->create([
-            "user_id" => $user->id,
+            "user_id"       => $user->id,
             "profile_image" => "",
         ]);
 

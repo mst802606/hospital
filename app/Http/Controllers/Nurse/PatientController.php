@@ -26,6 +26,8 @@ class PatientController extends BaseController
             ->with(['user', 'hospital', 'ward'])
             ->get();
 
+        $patients = $patients->where('status', true);
+
         return view('nurse.patients.index', compact('patients'));
     }
 

@@ -12,6 +12,15 @@
 																<p class="card-text"><strong>Active:</strong> {{ $plan->is_active ? 'Yes' : 'No' }}</p>
 																<a href="{{ route('admin.medication_plans.edit', $plan->id) }}" class="btn btn-primary">Edit</a>
 																<a href="{{ route('admin.medication_plans.index') }}" class="btn btn-secondary">Back to List</a>
+																<form action="{{ route('admin.medication_plans.destroy', ['medication_plan' => $plan]) }}" method="POST"
+																				class="d-inline">
+																				@csrf
+																				@method('DELETE')
+																				<button type="submit" class="btn btn-danger btn-sm"
+																								onclick="return confirm('Are you sure you want to delete this medication plan?')"><span><i
+																																class="fa fa-trash"></i>Delete</span></button>
+																</form>
+
 												</div>
 								</div>
 								<h4 class="mb-4">Medications</h4>
@@ -94,6 +103,7 @@
 																																<th>Name</th>
 																																<th>Ward</th>
 																																<th>Date</th>
+																																<th>Actions</th>
 																												</tr>
 																								</thead>
 																								<tbody>
@@ -103,6 +113,17 @@
 																																				<td>{{ $patient->user->username }}</td>
 																																				<td>{{ $patient->ward->name }}</td>
 																																				<td>{{ $patient->created_at->diffForHumans() }}</td>
+																																				<td>
+																																								<form
+																																												action="{{ route('admin.allocations.destroy', ['medication_plan' => $plan, 'patient' => $patient]) }}"
+																																												method="POST" class="d-inline">
+																																												@csrf
+																																												@method('DELETE')
+																																												<button type="submit" class="btn btn-danger btn-sm"
+																																																onclick="return confirm('Are you sure you want to remove this patient from this medication plans?')"><span><i
+																																																								class="fa fa-bin"></i>Remove</span></button>
+																																								</form>
+																																				</td>
 																																</tr>
 																												@endforeach
 																								</tbody>

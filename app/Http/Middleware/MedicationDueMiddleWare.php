@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Middleware;
 
 use App\Models\MedicationPlan;
@@ -22,6 +21,7 @@ class MedicationDueMiddleWare
             auth()->user()->notifications->markAsRead();
             $mediaction_needed = MedicationPlan::checkDueMedications();
             if ($mediaction_needed) {
+
                 session()->flash('error', 'Some patients require medications. Check your notifications');
             }
 

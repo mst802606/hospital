@@ -139,6 +139,8 @@ Route::prefix('/nurse')->name('nurse.')->middleware(['auth', 'nurse', 'medicatio
         Route::get('offer-medication/{patient_id}/medication_plan/{medication_plan_id}', [OfferPatientMedication::class, 'edit'])->name('patients.offer-medications');
         Route::put('offer-medication/{patient_id}/medication_plan/{medication_id}', [OfferPatientMedication::class, 'update'])->name('patients.offer-medications');
 
+        Route::put('offer-medication/{patient}/medication_plan', [OfferPatientMedication::class, 'quickUpdate'])->name('medication_plans.offer-medications');
+
         Route::put('failed-medications/{patient_id}/medication_plan/{medication_id}', [OfferPatientMedication::class, 'updateFailedMedication'])->name('patients.failed-medications');
         // medications
 

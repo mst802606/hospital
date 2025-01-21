@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('hospital_id')->references('id')->on('hospitals')->onDelete('cascade');
             $table->date('date_of_birth')->nullable();
             $table->boolean('admitted')->default(false);
+            $table->boolean('medication_given')->default(false);
             $table->text('medical_history')->nullable();
             $table->dateTime('medication_required_at')->nullable();
             $table->foreignId('ward_id')->nullable()->references('id')->on('wards');

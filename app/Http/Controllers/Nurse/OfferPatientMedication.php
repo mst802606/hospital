@@ -161,7 +161,6 @@ class OfferPatientMedication extends BaseController
         );
         $patient = Patient::where('id', $patient_id)->first();
 
-// Retrieve today's medications
         $medication         = Medication::where('id', $medication_id)->first();
         $patient_medication = $patient->medications()
             ->where('medications.id', $medication_id)
@@ -237,6 +236,109 @@ class OfferPatientMedication extends BaseController
         if (! $result) {
             return back()->with('error', "The patient's medication could not be updated");
         }
+
+        $patient->medication_given = true;
+        $patient->save();
+
+        return back()->with('success', "The patient's medication record has been updated");
+
+    }
+
+    public function quickUpdate(Request $request, string $patient_id)
+    {
+
+        $patient = Patient::where('id', $patient_id)->first();
+        // $medicationPlan = Medication::where('id', $medication_plan_id)->first();
+
+        if (count($patient->medicationPlans) <= 0) {
+            return back()->with('error', "The patient is under no medications.");
+        }
+
+        $result = null;
+        foreach ($patient->medicationPlans as $medicationPlan) {
+
+            foreach ($medicationPlan->medications as $medication) {
+
+                $patient_medication = $patient->medications()
+                    ->where('medications.id', $medication->id)
+                    ->whereDate('medications_patients.created_at', today())
+                    ->first();
+
+                if ($patient_medication) {
+
+                    $pivotRecord = DB::table('medications_patients')
+                        ->where('patient_id', $patient->id)
+                        ->where('medication_id', $medication->id)
+                        ->whereDate('created_at', today())
+                        ->first();
+
+                    // ✅ Update ONLY today's pivot record
+                    if ($request->is_patient_served) {
+                        $result = DB::table('medications_patients')
+                            ->where('medications_patients.id', $pivotRecord->id) // Use the specific pivot row ID
+                            ->update([
+                                "last_given"           => now(),
+                                "amount_taken_morning" => $medication->amount_taken_morning,
+                                "amount_taken_noon"    => $medication->amount_taken_noon,
+                                "amount_taken_evening" => $medication->amount_taken_evening,
+                                "amount_taken_night"   => $medication->amount_taken_night,
+                                "total_amount_given"   => $medication->total_amount_given,
+                                "is_patient_served"    => $request->is_patient_served,
+                                'medication_reason'    => null,
+                                "other_reason"         => $request->other_reason,
+                                'updated_at'           => now(),
+                            ]);
+                    } else {
+                        $result = DB::table('medications_patients')
+                            ->where('medications_patients.id', $pivotRecord->id) // Use the specific pivot row ID
+                            ->update([
+                                "last_given"        => now(),
+                                "is_patient_served" => $request->is_patient_served,
+                                'medication_reason' => $request->medication_reason,
+                                "other_reason"      => $request->other_reason,
+                                'updated_at'        => now(),
+                            ]);
+
+                    }
+                } else {
+                    if ($request->is_patient_served) {
+                        $result = $patient->medications()->attach($medication->id, [
+                            "last_given"                      => now(),
+                            "amount_taken_morning"            => $medication->amount_taken_morning,
+                            "amount_taken_noon"               => $medication->amount_taken_noon,
+                            "amount_taken_evening"            => $medication->amount_taken_evening,
+                            "amount_taken_night"              => $medication->amount_taken_night,
+                            "total_amount_given"              => $medication->total_amount_given,
+                            "is_patient_served"               => $request->is_patient_served,
+                            'medication_reason'               => $request->medication_reason,
+                            "other_reason"                    => $request->other_reason,
+                            'medications_patients.created_at' => now(),
+                            'medications_patients.updated_at' => now(),
+                        ]);
+
+                    } else {
+                        $result = $patient->medications()->attach($medication->id, [
+                            "last_given"                      => now(),
+                            "is_patient_served"               => $request->is_patient_served,
+                            'medication_reason'               => $request->medication_reason,
+                            "other_reason"                    => $request->other_reason,
+                            'medications_patients.created_at' => now(),
+                            'medications_patients.updated_at' => now(),
+                        ]);
+
+                    }
+
+                    $result = true;
+                }
+
+            }
+        }
+        if (! $result) {
+            return back()->with('error', "The patient's medication could not be updated");
+        }
+
+        $patient->medication_given = true;
+        $patient->save();
 
         return back()->with('success', "The patient's medication record has been updated");
 

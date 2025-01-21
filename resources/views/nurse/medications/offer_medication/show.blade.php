@@ -148,18 +148,8 @@
 																																																																</div>
 																																																												</div>
 
-																																																												{{--  </form>
-																																																				</div>
-																																																				<div class="col-md col-xl col-lg">
-																																																								<form
-																																																												action="{{ route('nurse.patients.failed-medications', ['patient_id' => $patient->id, 'medication_id' => $medication->id]) }}"
-																																																												method="POST">
-																																																												@csrf
-																																																												@method('PUT')  --}}
 
 																																																												<div class="card-body">
-
-
 																																																																<div class="col-md col-xl col-lg">
 																																																																				<div class="form-row">
 																																																																								<h5>Has patient been offered medication?</h5>

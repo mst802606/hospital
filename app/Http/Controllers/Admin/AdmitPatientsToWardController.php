@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\BaseController;
@@ -15,7 +14,7 @@ class AdmitPatientsToWardController extends BaseController
     public function index()
     {
         //
-        $wards = $this->hospital()->wards;
+        $wards    = $this->hospital()->wards;
         $patients = Patient::with('user')->get();
 
         return view('admin.wards.admit_patients.index', compact('wards', 'patients'));
@@ -27,7 +26,7 @@ class AdmitPatientsToWardController extends BaseController
     public function create()
     {
         //
-        $wards = $this->hospital()->wards;
+        $wards    = $this->hospital()->wards;
         $patients = Patient::with('user')->get();
 
         return view('admin.wards.admit_patients.create', compact('wards', 'patients'));
@@ -43,7 +42,7 @@ class AdmitPatientsToWardController extends BaseController
         $request->validate(
             [
                 'patient_id' => ['required', 'integer'],
-                'ward_id' => ['required', 'integer'],
+                'ward_id'    => ['required', 'integer'],
             ]
         );
 
@@ -52,10 +51,11 @@ class AdmitPatientsToWardController extends BaseController
         $ward = Ward::where('id', $request->ward_id)->first();
 
         $result = $patient->update(
-            ['ward_id' => $ward->id]
+            ['ward_id' => $ward->id,
+                'admitted' => true]
         );
 
-        if (!$result) {
+        if (! $result) {
             return back()->with('error', "The patient could not be admitted to the ward.");
         }
 

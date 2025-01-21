@@ -117,7 +117,7 @@ class OfferPatientMedication extends BaseController
 
             // ✅ Update ONLY today's pivot record
             $result = DB::table('medications_patients')
-                ->where('medications_patients.id', $pivotRecord->id) // Use the specific pivot row ID
+                ->where('id', $pivotRecord->id) // Use the specific pivot row ID
                 ->update([
                     "is_patient_served" => $request->is_patient_served,
                     'medication_reason' => $request->medication_reason,
@@ -130,8 +130,8 @@ class OfferPatientMedication extends BaseController
                 "is_patient_served"               => $request->is_patient_served,
                 'medication_reason'               => $request->medication_reason,
                 "other_reason"                    => $request->other_reason,
-                'medications_patients.created_at' => now(),
-                'medications_patients.updated_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
 
             $result = $patient->medications()
@@ -180,7 +180,7 @@ class OfferPatientMedication extends BaseController
             // ✅ Update ONLY today's pivot record
             if ($request->is_patient_served) {
                 $result = DB::table('medications_patients')
-                    ->where('medications_patients.id', $pivotRecord->id) // Use the specific pivot row ID
+                    ->where('id', $pivotRecord->id) // Use the specific pivot row ID
                     ->update([
                         "last_given"          => now(),
                         $request->dosage_time => $request->dosage_amount,
@@ -192,7 +192,7 @@ class OfferPatientMedication extends BaseController
                     ]);
             } else {
                 $result = DB::table('medications_patients')
-                    ->where('medications_patients.id', $pivotRecord->id) // Use the specific pivot row ID
+                    ->where('id', $pivotRecord->id) // Use the specific pivot row ID
                     ->update([
                         "last_given"        => now(),
                         "is_patient_served" => $request->is_patient_served,
@@ -211,8 +211,8 @@ class OfferPatientMedication extends BaseController
                     "is_patient_served"               => $request->is_patient_served,
                     'medication_reason'               => $request->medication_reason,
                     "other_reason"                    => $request->other_reason,
-                    'medications_patients.created_at' => now(),
-                    'medications_patients.updated_at' => now(),
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ]);
 
             } else {
@@ -221,8 +221,8 @@ class OfferPatientMedication extends BaseController
                     "is_patient_served"               => $request->is_patient_served,
                     'medication_reason'               => $request->medication_reason,
                     "other_reason"                    => $request->other_reason,
-                    'medications_patients.created_at' => now(),
-                    'medications_patients.updated_at' => now(),
+                    'created_at' => now(),
+                    'updated_at' => now(),
                 ]);
 
             }
@@ -275,7 +275,7 @@ class OfferPatientMedication extends BaseController
                     // ✅ Update ONLY today's pivot record
                     if ($request->is_patient_served) {
                         $result = DB::table('medications_patients')
-                            ->where('medications_patients.id', $pivotRecord->id) // Use the specific pivot row ID
+                            ->where('id', $pivotRecord->id) // Use the specific pivot row ID
                             ->update([
                                 "last_given"           => now(),
                                 "amount_taken_morning" => $medication->amount_taken_morning,
@@ -290,7 +290,7 @@ class OfferPatientMedication extends BaseController
                             ]);
                     } else {
                         $result = DB::table('medications_patients')
-                            ->where('medications_patients.id', $pivotRecord->id) // Use the specific pivot row ID
+                            ->where('id', $pivotRecord->id) // Use the specific pivot row ID
                             ->update([
                                 "last_given"        => now(),
                                 "is_patient_served" => $request->is_patient_served,
@@ -312,7 +312,7 @@ class OfferPatientMedication extends BaseController
                             "is_patient_served"               => $request->is_patient_served,
                             'medication_reason'               => $request->medication_reason,
                             "other_reason"                    => $request->other_reason,
-                            'medications_patients.created_at' => now(),
+                            'created_at' => now(),
                             'medications_patients.updated_at' => now(),
                         ]);
 
@@ -322,8 +322,8 @@ class OfferPatientMedication extends BaseController
                             "is_patient_served"               => $request->is_patient_served,
                             'medication_reason'               => $request->medication_reason,
                             "other_reason"                    => $request->other_reason,
-                            'medications_patients.created_at' => now(),
-                            'medications_patients.updated_at' => now(),
+                            'created_at' => now(),
+                            'updated_at' => now(),
                         ]);
 
                     }

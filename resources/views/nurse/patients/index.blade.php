@@ -82,7 +82,8 @@
 																																</td>
 																																<td>
 																																				@if (count($patient->medicationPlans) > 0)
-																																								@if (!$patient->medication_given)
+																																				 
+																																								@if (!$patient->medication_given == true)
 																																												<div class="col-md col-xl col-lg">
 																																																<form
 																																																				action="{{ route('nurse.medication_plans.offer-medications', ['patient' => $patient->id]) }}"

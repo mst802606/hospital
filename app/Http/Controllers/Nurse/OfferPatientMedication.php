@@ -240,6 +240,8 @@ class OfferPatientMedication extends BaseController
         $patient->medication_given = true;
         $patient->save();
 
+       
+
         return back()->with('success', "The patient's medication record has been updated");
 
     }
@@ -313,7 +315,7 @@ class OfferPatientMedication extends BaseController
                             'medication_reason'               => $request->medication_reason,
                             "other_reason"                    => $request->other_reason,
                             'created_at' => now(),
-                            'medications_patients.updated_at' => now(),
+                            'updated_at' => now(),
                         ]);
 
                     } else {
@@ -337,8 +339,14 @@ class OfferPatientMedication extends BaseController
             return back()->with('error', "The patient's medication could not be updated");
         }
 
-        $patient->medication_given = true;
-        $patient->save();
+        // $patient->medication_given = true;
+        // $patient->save();
+
+        $result = $patient->update(["medication_given" => true]);
+         if (! $result) {
+            return back()->with('error', "The patient's medication could not be updated");
+        }
+        
 
         return back()->with('success', "The patient's medication record has been updated");
 

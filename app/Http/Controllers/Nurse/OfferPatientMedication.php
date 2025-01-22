@@ -237,8 +237,8 @@ class OfferPatientMedication extends BaseController
             return back()->with('error', "The patient's medication could not be updated");
         }
 
-        if ($request->is_patient_served){$patient->medication_given = true;
-        $patient->save();}
+       $patient->medication_given = true;
+        $patient->save();
 
        
 

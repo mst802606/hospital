@@ -237,8 +237,8 @@ class OfferPatientMedication extends BaseController
             return back()->with('error', "The patient's medication could not be updated");
         }
 
-        $patient->medication_given = true;
-        $patient->save();
+        if ($request->is_patient_served){$patient->medication_given = true;
+        $patient->save();}
 
        
 
@@ -267,7 +267,6 @@ class OfferPatientMedication extends BaseController
                     ->first();
 
                 if ($patient_medication) {
-
                     $pivotRecord = DB::table('medications_patients')
                         ->where('patient_id', $patient->id)
                         ->where('medication_id', $medication->id)
@@ -301,6 +300,7 @@ class OfferPatientMedication extends BaseController
                                 'updated_at'        => now(),
                             ]);
 
+
                     }
                 } else {
                     if ($request->is_patient_served) {
@@ -333,20 +333,19 @@ class OfferPatientMedication extends BaseController
                     $result = true;
                 }
 
+                
+
+
             }
         }
         if (! $result) {
             return back()->with('error', "The patient's medication could not be updated");
         }
-
-        // $patient->medication_given = true;
-        // $patient->save();
-
+      
         $result = $patient->update(["medication_given" => true]);
          if (! $result) {
             return back()->with('error', "The patient's medication could not be updated");
-        }
-        
+        }        
 
         return back()->with('success', "The patient's medication record has been updated");
 

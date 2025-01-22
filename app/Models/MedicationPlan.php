@@ -56,45 +56,51 @@ class MedicationPlan extends Model
 
                     if ($medication->amount_taken_morning > 0 && ! $pivot->amount_taken_morning
                         && ! ($pivot->last_given->between(Carbon::today(env('timezone'))->setTime(6, 30),
-                            Carbon::today(env('timezone'))->setTime(9, 30)))
+                            Carbon::today(env('timezone'))->setTime(11, 59)))
                     ) {
 
                         $patient->medication_required_at = Carbon::today(env('timezone'))->setTime(6, 30);
-                        $patient->medication_given       = false;
-                        $patient->save();
+                         $patient->save();
 
                         if ($now->between(Carbon::today(env('timezone'))->setTime(6, 30),
-                            Carbon::today(env('timezone'))->setTime(9, 30))) {$mediaction_needed = true;
-                            Nurse::notifyNursesOnMedication($patient, "Morning medication needed");}
+                            Carbon::today(env('timezone'))->setTime(11, 59))) {$mediaction_needed = true;
+                            Nurse::notifyNursesOnMedication($patient, "Morning medication needed");
+                            $patient->medication_given       = false;
+                            $patient->save();
+                        }
                     }
 
                     // Noon medication (12 PM - 1 PM)
                     if ($medication->amount_taken_noon > 0 && ! $pivot->amount_taken_noon
                         && ! ($pivot->last_given->between(Carbon::today(env('timezone'))->setTime(12, 0),
-                            Carbon::today(env('timezone'))->setTime(13, 30)))
+                            Carbon::today(env('timezone'))->setTime(17, 59)))
 
                     ) {
                         $patient->medication_required_at = Carbon::today(env('timezone'))->setTime(12, 0);
-                        $patient->medication_given       = false;
-                        $patient->save();
+                         $patient->save();
 
                         if ($now->between(Carbon::today(env('timezone'))->setTime(12, 0),
-                            Carbon::today(env('timezone'))->setTime(13, 30))) {$mediaction_needed = true;
-                            Nurse::notifyNursesOnMedication($patient, "Noon medication needed");}
+                            Carbon::today(env('timezone'))->setTime(17, 59))) {$mediaction_needed = true;
+                            Nurse::notifyNursesOnMedication($patient, "Noon medication needed");
+                            $patient->medication_given       = false;
+                            $patient->save();
+                        }
                     }
 
                     // Evening medication (2:30 PM - 7 PM)
                     if ($medication->amount_taken_evening > 0 && ! $pivot->amount_taken_evening
                         && ! ($pivot->last_given->between(Carbon::today(env('timezone'))->setTime(18, 0),
-                            Carbon::today(env('timezone'))->setTime(19, 30)))
+                            Carbon::today(env('timezone'))->setTime(20, 59)))
                     ) {
                         $patient->medication_required_at = Carbon::today(env('timezone'))->setTime(18, 0);
-                        $patient->medication_given       = false;
                         $patient->save();
 
                         if ($now->between(Carbon::today(env('timezone'))->setTime(18, 0),
-                            Carbon::today(env('timezone'))->setTime(19, 30))) {$mediaction_needed = true;
-                            Nurse::notifyNursesOnMedication($patient, "Evening medication needed");}
+                            Carbon::today(env('timezone'))->setTime(20, 59))) {$mediaction_needed = true;
+                            Nurse::notifyNursesOnMedication($patient, "Evening medication needed");
+                            $patient->medication_given       = false;
+                            $patient->save();
+                        }
 
                     }
 
@@ -104,29 +110,26 @@ class MedicationPlan extends Model
                     ) {
 
                         $patient->medication_required_at = Carbon::today(env('timezone'))->setTime(21, 0);
-                        $patient->medication_given       = false;
                         $patient->save();
                         if ($now->between(Carbon::today(env('timezone'))->setTime(21, 0),
                             Carbon::today(env('timezone'))->setTime(22, 30))) {$mediaction_needed = true;
-                            Nurse::notifyNursesOnMedication($patient, "Night medication needed");}
+                            Nurse::notifyNursesOnMedication($patient, "Night medication needed");
+                            $patient->medication_given       = false;
+                            $patient->save();
+                        }
                     }
                 }
             } else {
 
                 foreach ($patient->medicationPlans as $medication_plan) {
-                    // $patient->medication_required_at = null;
-                    // $patient->medication_given       = false;
-                    // $patient->save();
-
                     foreach ($medication_plan->medications as $medication) {
                         $mediaction_needed = false;
 
                         if (
                             $medication->amount_taken_morning > 0
-
                         ) {
 
-                            if ($now->between(Carbon::today(env('timezone'))->setTime(6, 30), Carbon::today(env('timezone'))->setTime(9, 30))) {$mediaction_needed = true;
+                            if ($now->between(Carbon::today(env('timezone'))->setTime(6, 30), Carbon::today(env('timezone'))->setTime(11, 59))) {$mediaction_needed = true;
                                 Nurse::notifyNursesOnMedication($patient, "Morning medication needed");
                                 $patient->medication_required_at = Carbon::today(env('timezone'))->setTime(6, 30);
                                 $patient->medication_given       = false;
@@ -140,7 +143,7 @@ class MedicationPlan extends Model
 
                         ) {
 
-                            if ($now->between(Carbon::today(env('timezone'))->setTime(12, 0), Carbon::today(env('timezone'))->setTime(13, 30))) {$mediaction_needed = true;
+                            if ($now->between(Carbon::today(env('timezone'))->setTime(12, 0), Carbon::today(env('timezone'))->setTime(17, 59))) {$mediaction_needed = true;
                                 Nurse::notifyNursesOnMedication($patient, "Noon medication needed");
                                 $patient->medication_required_at = Carbon::today(env('timezone'))->setTime(12, 0);
                                 $patient->medication_given       = false;
@@ -153,11 +156,9 @@ class MedicationPlan extends Model
 
                         ) {
 
-                            // $patient->medication_required_at = Carbon::today(env('timezone'))->setTime(18, 0);
-                            // $patient->medication_given = false;
-                            // $patient->save();
+                            ;
 
-                            if ($now->between(Carbon::today(env('timezone'))->setTime(18, 0), Carbon::today(env('timezone'))->setTime(19, 30))) {$mediaction_needed = true;
+                            if ($now->between(Carbon::today(env('timezone'))->setTime(18, 0), Carbon::today(env('timezone'))->setTime(20, 59))) {$mediaction_needed = true;
                                 Nurse::notifyNursesOnMedication($patient, "Evening medication needed");
                                 $patient->medication_required_at = Carbon::today(env('timezone'))->setTime(12, 0);
                                 $patient->medication_given       = false;
@@ -170,11 +171,6 @@ class MedicationPlan extends Model
                             $medication->amount_taken_night > 0
 
                         ) {
-
-                            // $patient->medication_required_at = Carbon::today(env('timezone'))->setTime(21, 0);
-                            // $patient->medication_given = false;
-                            // $patient->save();
-
                             if ($now->between(Carbon::today(env('timezone'))->setTime(21, 0), Carbon::today(env('timezone'))->setTime(22, 30))) {$mediaction_needed = true;
                                 Nurse::notifyNursesOnMedication($patient, "Night medication needed");
                                 $patient->medication_required_at = Carbon::today(env('timezone'))->setTime(12, 0);

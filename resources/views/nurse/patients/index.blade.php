@@ -64,8 +64,7 @@
 
 																																<td>
 																																				@if (count($patient->medications) > 0)
-																																								@foreach ($patient->medications as $medication)
-																																												@if (!$medication->pivot->is_patient_served)
+																																								@foreach ($patient->medications as $medication)																																												@if (!$medication->pivot->is_patient_served)
 																																																<p>Medication not given because of
 																																																				{{ $medication->pivot->medication_reason ?? $medication->pivot->other_reason }}
 																																																</p>
@@ -77,13 +76,12 @@
 																																								@endforeach
 																																				@else
 																																								N/A
-																																				@endif
+																																					@endif
 
 																																</td>
 																																<td>
 																																				@if (count($patient->medicationPlans) > 0)
-																																				 
-																																								@if (!$patient->medication_given == true)
+																																								@if (!$patient->medication_given)
 																																												<div class="col-md col-xl col-lg">
 																																																<form
 																																																				action="{{ route('nurse.medication_plans.offer-medications', ['patient' => $patient->id]) }}"
@@ -216,7 +214,7 @@
 
 																																												</div>
 																																								@else
-																																												Medication Given
+																																												Patient served
 																																								@endif
 																																				@else
 																																								Patient is not under medication
